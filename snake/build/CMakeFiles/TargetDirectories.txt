@@ -1,3 +1,0 @@
-/home/ehevi/sfml-snake/snake/build/CMakeFiles/rebuild_cache.dir
-/home/ehevi/sfml-snake/snake/build/CMakeFiles/snake.dir
-/home/ehevi/sfml-snake/snake/build/CMakeFiles/edit_cache.dir

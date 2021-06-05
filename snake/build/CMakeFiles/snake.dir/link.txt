@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++17 -Wall -pedantic -Wextra -Werror -O0  -rdynamic CMakeFiles/snake.dir/main.cpp.o  -o snake -lsfml-system -lsfml-graphics -lsfml-audio -lsfml-window 
