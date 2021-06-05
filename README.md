@@ -14,8 +14,8 @@ https://github.com/maidis/qtcreator-template-sfml
 
 4. running an app:
 ```
-git clone ...
-cd ...
+git clone https://github.com/Ehevi/sfml-snake sfml-snake
+cd sfml-snake/snake
 mkdir build
 cd build
 cmake ..
@@ -25,8 +25,10 @@ make
 
 5. cleanup:
 ```
+cd ..
 rm -Rf build
-# or if you wanna clean everything
-# cd ../..
+# or if you wanna remove everything
+# cd ../../..
 # rm -Rf sfml-snake
 ```
+
