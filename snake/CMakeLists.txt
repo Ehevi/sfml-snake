@@ -9,7 +9,7 @@ project(snake)
 set(SRCS
     src/game.cpp
     src/main.cpp
-    src/snakesection.cpp
+    #src/snakesection.cpp
 )
 
 add_executable("${PROJECT_NAME}" #${HEADERS} 
