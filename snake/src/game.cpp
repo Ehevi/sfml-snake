@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "../headers/game.hpp"
 
 const sf::Time Game::TimePerFrame = seconds(1.f/60.f);
 
