@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include "../headers/snakesection.hpp"
+#include <vector>
 
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
@@ -17,6 +19,8 @@ private:
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
 
+    vector<SnakeSection> snake;
+
 public:
     Game();
 
@@ -25,6 +29,9 @@ public:
     void draw();
 
     void run();
+
+    void newSnake();
+    void addSnakeSection();
 };
 
 #endif //GAME_HPP
