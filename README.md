@@ -32,3 +32,5 @@ rm -Rf build
 # rm -Rf sfml-snake
 ```
 
+6. about the code
+snake/cmake/FindSFML.cmake file comes from https://github.com/SFML/SFML-Game-Development-Book/blob/master/CMake/FindSFML.cmake
