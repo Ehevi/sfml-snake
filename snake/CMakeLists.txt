@@ -1,20 +1,16 @@
 cmake_minimum_required(VERSION 3.20)
 project(snake)
 
-# set(HEADERS
-#    headers/game.hpp
-#    headers/snakesection.hpp
-#)
-
 set(SRCS
     src/game.cpp
     src/main.cpp
     src/snakesection.cpp
-#    src/snake.cpp
+    src/input.cpp
+    src/draw.cpp
+#   src/snake.cpp
 )
 
-add_executable("${PROJECT_NAME}" #${HEADERS} 
-${SRCS})
+add_executable("${PROJECT_NAME}" ${SRCS})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -pedantic -Wextra -Werror -O0")
 

@@ -10,34 +10,8 @@ Game::Game() {
 
 void Game::run() {
   while(window.isOpen()) {
-    enableClose();
+    handleInput();
     draw();
-  }
-}
-
-void Game::draw() {
-  window.clear(Color::Black);
-
-  newSnake();
-  for(auto & s : snake) {
-    window.draw(s.getShape());
-  }
-
-  window.display();
-}
-
-void Game::enableClose() {
-  Event event{};
-  while(window.pollEvent(event)) {
-    if(event.type == Event::Closed) {
-      window.close();
-    }
-
-    if(event.type == Event::KeyPressed) {
-      if(Keyboard::isKeyPressed(Keyboard::Escape)) {
-        window.close();
-      }
-    }
   }
 }
 

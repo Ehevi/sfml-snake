@@ -24,7 +24,7 @@ private:
 public:
     Game();
 
-    void enableClose();
+    void handleInput();
 
     void draw();
 
