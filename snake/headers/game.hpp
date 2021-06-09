@@ -38,21 +38,20 @@ public:
     Game();
 
     enum Direction {UP, DOWN, RIGHT, LEFT};
-
+    
     void handleInput();
     void addDirection(int newDirection);
     void update();
 
     void draw();
 
-    void run();
-
     void newSnake();
     void addSnakeSection();
 
     void moveFood();
 
-    void handleMenu();
+    void run(); // main loop
+
 };
 
 #endif //GAME_HPP

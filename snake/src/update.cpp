@@ -37,8 +37,14 @@ void Game::update() {
             directionQueue.pop_front();
         }
 
-        // update the head position
-        switch (snakeDirection) {
+    // do we need to grow the snake
+    if (sectionsToAdd) {
+      addSnakeSection();
+      sectionsToAdd--;
+    }
+
+    // update the head position
+    switch (snakeDirection) {
             case Direction::UP:
                 snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - 20));
                 break;
@@ -69,7 +75,17 @@ void Game::update() {
             s.update();
         }
 
-        // reset the last move timer
-        timeSinceLastMove = Time::Zero;
-    } // ENDIF: update snake position
+    // Collision detection - Food
+    if (snake[0].getShape().getGlobalBounds().intersects(food.getApple().getGlobalBounds())) {
+      // We hit the food, add more sections to the snake, increase speed and move the food
+// TODO - increment score, foods eaten, add snake sections and check if its time for the next level
+
+      sectionsToAdd += 4;
+      speed++;
+      moveFood();
+    }
+
+    // reset the last move timer
+    timeSinceLastMove = Time::Zero;
+  } // ENDIF: update snake position
 }
