@@ -3,20 +3,21 @@
 
 #include <SFML/Graphics.hpp>
 
-// #define APPLE_RADIUS 7;
+#define APPLE_RADIUS 10;
 
 using namespace sf;
 
 class Food {
 private:
-    // CircleShape apple;
-    RectangleShape apple;
+    CircleShape apple;
+    RectangleShape appleSpace;
 
 public:
     Food();
 
     void setPosition(Vector2f newPosition);
-    RectangleShape getApple();
+    RectangleShape getAppleSpace();
+    CircleShape getApple();
 };
 
 #endif //FOOD_HPP

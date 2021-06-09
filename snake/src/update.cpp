@@ -76,7 +76,7 @@ void Game::update() {
         }
 
     // Collision detection - Food
-    if (snake[0].getShape().getGlobalBounds().intersects(food.getApple().getGlobalBounds())) {
+    if (snake[0].getShape().getGlobalBounds().intersects(food.getAppleSpace().getGlobalBounds())) {
       // We hit the food, add more sections to the snake, increase speed and move the food
 // TODO - increment score, foods eaten, add snake sections and check if its time for the next level
 
