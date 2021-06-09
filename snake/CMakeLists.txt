@@ -7,6 +7,7 @@ set(SRCS
     src/snakesection.cpp
     src/input.cpp
     src/draw.cpp
+    src/update.cpp
 #   src/snake.cpp
 )
 

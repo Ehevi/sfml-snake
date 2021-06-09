@@ -3,8 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
-#include "../headers/snakesection.hpp"
 #include <vector>
+#include <deque>
+#include "../headers/snakesection.hpp"
 
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
@@ -21,10 +22,20 @@ private:
 
     vector<SnakeSection> snake;
 
+    int snakeDirection;
+    deque<int> directionQueue; // queue for direction key presses
+    int speed;
+
+    Time timeSinceLastMove;
+
 public:
     Game();
 
+    enum Direction {UP, DOWN, RIGHT, LEFT};
+
     void handleInput();
+    void addDirection(int newDirection);
+    void update();
 
     void draw();
 

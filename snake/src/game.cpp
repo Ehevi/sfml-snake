@@ -6,11 +6,24 @@ Game::Game() {
   resolution = Vector2f(SCREEN_WIDTH, SCREEN_WIDTH);
   window.create(VideoMode(resolution.x, resolution.y), "Snake", Style::Default);
   window.setFramerateLimit(FPS);
+
+  speed = 2;
+  snakeDirection = Direction::RIGHT;
+
+  timeSinceLastMove = Time::Zero;
+
+  newSnake();
 }
 
 void Game::run() {
+  Clock clock;
+  
   while(window.isOpen()) {
+    Time dt = clock.restart();
+    timeSinceLastMove += dt;
+
     handleInput();
+    update();
     draw();
   }
 }
