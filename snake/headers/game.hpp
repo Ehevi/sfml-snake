@@ -6,6 +6,7 @@
 #include <vector>
 #include <deque>
 #include "../headers/snakesection.hpp"
+#include "../headers/food.hpp"
 
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
@@ -15,6 +16,8 @@ using namespace std;
 
 class Game {
 private:
+    enum GameState {MENU, OPTIONS, PLAYING, OVER, EXIT};
+    GameState gameState;
     Vector2f resolution;
     RenderWindow window;
     const unsigned int FPS = 60;
@@ -25,6 +28,9 @@ private:
     int snakeDirection;
     deque<int> directionQueue; // queue for direction key presses
     int speed;
+    int sectionsToAdd; // how many sections to add to the snake
+
+    Food food;
 
     Time timeSinceLastMove;
 
@@ -43,6 +49,10 @@ public:
 
     void newSnake();
     void addSnakeSection();
+
+    void moveFood();
+
+    void handleMenu();
 };
 
 #endif //GAME_HPP

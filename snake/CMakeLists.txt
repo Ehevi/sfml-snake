@@ -8,6 +8,7 @@ set(SRCS
     src/input.cpp
     src/draw.cpp
     src/update.cpp
+    src/food.cpp
 #   src/snake.cpp
 )
 
