@@ -12,6 +12,8 @@ Game::Game() {
 
   timeSinceLastMove = Time::Zero;
 
+  currentGameState = GameState::PLAYING;
+
   sectionsToAdd = 0;
   newSnake();
   moveFood();
@@ -59,6 +61,15 @@ void Game::moveFood() {
     }
   } while (badLocation);
   food.setPosition(newFoodLocation);
+}
+
+void Game::handlePause() {
+  if (currentGameState == GameState::PLAYING) {
+    lastGameState = currentGameState;
+    currentGameState = GameState::PAUSED;
+  } else if (currentGameState == GameState::PAUSED) {
+    currentGameState = lastGameState;
+  }
 }
 
 void Game::run() {

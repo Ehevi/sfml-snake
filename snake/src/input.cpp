@@ -24,6 +24,8 @@ void Game::handleInput() {
                     case Keyboard::Left:
                         addDirection(Direction::LEFT);
                         break;
+                    case Keyboard::Space:
+                        handlePause();
                     default:
                         break;
                 }

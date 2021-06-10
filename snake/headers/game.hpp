@@ -52,6 +52,8 @@ public:
 
     void moveFood();
 
+    void handlePause();
+
     void run(); // main loop
 
 };
