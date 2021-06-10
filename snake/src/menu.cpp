@@ -137,7 +137,7 @@ void Game::displaySettings() {
     wallsCheckBox.setOutlineThickness(5);
     wallsCheckBox.setPosition(SCREEN_WIDTH / 2, 450);
     
-   Event event;
+    Event event;
 
     while(currentGameState == Game::SETTINGS) {
         Vector2f mouse(Mouse::getPosition(window));
@@ -177,53 +177,41 @@ void Game::displaySettings() {
                     return;
                 default:
                     break;
-          }   
-      }
+            }   
+        }
       
-      if(settingsStrings[4].getGlobalBounds().contains(mouse)) //Change 'Back' string color to green on mouse hover
-          settingsStrings[4].setFillColor(Color::Green);
-      else
-          settingsStrings[4].setFillColor(Color::White);
+        if(settingsStrings[4].getGlobalBounds().contains(mouse)) //Change 'Back' string color to green on mouse hover
+            settingsStrings[4].setFillColor(Color::Green);
+        else
+            settingsStrings[4].setFillColor(Color::White);
       
-      //Highlight string on mouse hover when it is not choosen (yellow)
-      if(settingsStrings[5].getGlobalBounds().contains(mouse) && getSpeed() > 2)
-          settingsStrings[5].setFillColor(Color::Green);
-      else
-          settingsStrings[5].setFillColor(Color::White);
+        //Highlight string on mouse hover when it is not choosen (yellow)
+        if(settingsStrings[5].getGlobalBounds().contains(mouse) && getSpeed() > 2)
+            settingsStrings[5].setFillColor(Color::Green);
+        else
+            settingsStrings[5].setFillColor(Color::White);
       
       //Same as before
-      if(settingsStrings[6].getGlobalBounds().contains(mouse) && getSpeed() == 2)
-          settingsStrings[6].setFillColor(Color::Green);
-      else
-          settingsStrings[6].setFillColor(Color::White);
+        if(settingsStrings[6].getGlobalBounds().contains(mouse) && getSpeed() == 2)
+            settingsStrings[6].setFillColor(Color::Green);
+        else
+            settingsStrings[6].setFillColor(Color::White);
       
-      //Highlight choosen option in Snake speed
-      if(getSpeed() == 2)
-          settingsStrings[5].setFillColor(Color::Yellow);
-      else
-          settingsStrings[6].setFillColor(Color::Yellow);
+        //Highlight choosen option in Snake speed
+        speed == 2 ? settingsStrings[5].setFillColor(Color::Yellow) : settingsStrings[6].setFillColor(Color::Yellow);
       
+        // mark or unmark checkboxes
+        bordersCheckBox.setFillColor(borders ? Color::Yellow : Color::Black);
+        wallsCheckBox.setFillColor(generateWalls ? Color::Yellow : Color::Black);
       
-      //Mark or unmark checkbox
-      if(borders)
-          bordersCheckBox.setFillColor(Color::Yellow);
-      else
-          bordersCheckBox.setFillColor(Color::Black);
+        window.clear();
       
-      if(generateWalls)
-          wallsCheckBox.setFillColor(Color::Yellow);
-      else
-          wallsCheckBox.setFillColor(Color::Black);
-          
+        for (auto &s : settingsStrings)
+            window.draw(s);
       
-      window.clear();
+        window.draw(bordersCheckBox);
+        window.draw(wallsCheckBox);
       
-      for(int i = 0; i < 7; i++)
-          window.draw(settingsStrings[i]);
-      
-      window.draw(bordersCheckBox);
-      window.draw(wallsCheckBox);
-      
-      window.display();
-   }
+        window.display();
+    }
 }
