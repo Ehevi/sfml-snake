@@ -10,6 +10,7 @@ set(SRCS
     src/update.cpp
     src/food.cpp
     src/menu.cpp
+    src/utils.cpp
 #   src/snake.cpp
 )
 

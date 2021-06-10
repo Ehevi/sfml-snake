@@ -18,7 +18,7 @@ Game::Game() {
 }
 
 void Game::startGame() {
-  speed = 2;
+  // speed = 2;
   snakeDirection = Direction::RIGHT;
   timeSinceLastMove = Time::Zero;
   currentGameState = GameState::PLAYING;

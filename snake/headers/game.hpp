@@ -5,11 +5,10 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <vector>
 #include <deque>
-#include "../headers/snakesection.hpp"
-#include "../headers/food.hpp"
+#include "snakesection.hpp"
+#include "food.hpp"
+#include "utils.hpp"
 
-#define SCREEN_HEIGHT 600
-#define SCREEN_WIDTH 800
 #define head snake[0]
 #define snakeInitialPosition {Vector2f(100, 100), Vector2f(80, 100), Vector2f(60, 100)}
 
@@ -38,6 +37,8 @@ private:
 
     // Menu
     Font font;
+
+    Text title;
     Text menuStrings[3];
     Text settingsStrings[7];
     Text score;
@@ -45,10 +46,8 @@ private:
     Text gameOverStrings[4];
     Text pauseString;
 
-    int snakeSpeed;
     bool generateWalls;
     bool borders;
-    bool isGamePaused;
 
     RectangleShape speedCheckBox;
     RectangleShape wallsCheckBox;
@@ -69,14 +68,6 @@ public:
     void setCurrentGameState(int newState) {
         prevGameState = currentGameState;
         currentGameState = newState;
-    }
-
-    void setSpeed(int selectedSpeed) {
-        speed = selectedSpeed;
-    }
-
-    int getSpeed() {
-        return speed;
     }
 
     void handleInput();

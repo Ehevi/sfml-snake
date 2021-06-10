@@ -1,4 +1,5 @@
 #include "../headers/game.hpp"
+#include "../headers/utils.hpp"
 
 void Game::handleMenu() {
     while(1) {
@@ -23,6 +24,11 @@ void Game::handleMenu() {
 }
 
 void Game::displayMenu() {
+    title.setFont(font);
+    title.setString("SFML Snake");
+    title.setCharacterSize(80);
+    centerHorizontally(title, 150);
+    
     menuStrings[0].setString("Start");
     menuStrings[1].setString("Settings");
     menuStrings[2].setString("Exit");
@@ -31,7 +37,7 @@ void Game::displayMenu() {
     for (auto &ms : menuStrings) {
         ms.setFont(font);
         ms.setCharacterSize(40);
-        ms.setPosition(SCREEN_WIDTH / 2 - ms.getGlobalBounds().width / 2, 250 + 50 * i);
+        centerHorizontally(ms, 250 + 50 * i);
         i++;
     }
 
@@ -82,6 +88,7 @@ void Game::displayMenu() {
         
         window.clear();
 
+        window.draw(title);
         for(auto &ms : menuStrings) {
             window.draw(ms);
             ms.getGlobalBounds().contains(mouse)? ms.setFillColor(Color::Green) : ms.setFillColor(Color::White);
@@ -101,10 +108,10 @@ void Game::displaySettings() {
     for(auto &s : settingsStrings) {
         s.setFont(font);
         s.setCharacterSize(40);
-        s.setPosition(SCREEN_WIDTH / 2 - s.getGlobalBounds().width / 2, 100 + 100 * i);
+        centerHorizontally(s, 100 + 100 * i);
         i++;
     }
-    settingsStrings[0].setString("SETTINGS");
+    settingsStrings[0].setString("Settings");
     settingsStrings[1].setString("Snake speed");
     settingsStrings[2].setString("Can walk through border");
     settingsStrings[3].setString("Random wall generation");
@@ -113,15 +120,17 @@ void Game::displaySettings() {
     settingsStrings[6].setString("Fast");
     
     settingsStrings[0].setCharacterSize(80);
-    settingsStrings[0].setPosition(SCREEN_WIDTH / 2 - settingsStrings[0].getGlobalBounds().width / 2, 50);
+    centerHorizontally(settingsStrings[0], 50);
 
     
     //Set 'Slow' string
     settingsStrings[5].setCharacterSize(40);
+    // centerHorizontally(settingsStrings[5], 240);
     settingsStrings[5].setPosition(SCREEN_WIDTH / 2 - settingsStrings[5].getGlobalBounds().width, 240);
     
     //Set 'Fast' string
     settingsStrings[6].setCharacterSize(40);
+    // centerHorizontally(settingsStrings[6], 240);
     settingsStrings[6].setPosition(SCREEN_WIDTH / 2 + settingsStrings[5].getGlobalBounds().width / 4, 240);
     
     //Set checkboxes
@@ -129,13 +138,13 @@ void Game::displaySettings() {
     bordersCheckBox.setOutlineColor(Color::Red);
     bordersCheckBox.setFillColor(Color::Black);
     bordersCheckBox.setOutlineThickness(5);
-    bordersCheckBox.setPosition(SCREEN_WIDTH / 2, 350);
+    centerHorizontally(bordersCheckBox, 350);
     
     wallsCheckBox.setSize(Vector2f(20,20));
     wallsCheckBox.setOutlineColor(Color::Red);
     wallsCheckBox.setFillColor(Color::Black);
     wallsCheckBox.setOutlineThickness(5);
-    wallsCheckBox.setPosition(SCREEN_WIDTH / 2, 450);
+    centerHorizontally(wallsCheckBox, 450);
     
     Event event;
 
@@ -151,11 +160,11 @@ void Game::displaySettings() {
                     
                     // set snake slow
                     if(settingsStrings[5].getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left && speed > 2)
-                        setSpeed(2);
+                        speed = 2;
                     
                     // set snake fast
-                    if(settingsStrings[6].getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left && getSpeed() == 2)
-                        setSpeed(5);
+                    if(settingsStrings[6].getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left && speed == 2)
+                        speed = 5;
                     
                     // borders flag
                     if(bordersCheckBox.getGlobalBounds().contains(mouse)) {
@@ -186,13 +195,13 @@ void Game::displaySettings() {
             settingsStrings[4].setFillColor(Color::White);
       
         //Highlight string on mouse hover when it is not choosen (yellow)
-        if(settingsStrings[5].getGlobalBounds().contains(mouse) && getSpeed() > 2)
+        if(settingsStrings[5].getGlobalBounds().contains(mouse) && speed > 2)
             settingsStrings[5].setFillColor(Color::Green);
         else
             settingsStrings[5].setFillColor(Color::White);
       
       //Same as before
-        if(settingsStrings[6].getGlobalBounds().contains(mouse) && getSpeed() == 2)
+        if(settingsStrings[6].getGlobalBounds().contains(mouse) && speed == 2)
             settingsStrings[6].setFillColor(Color::Green);
         else
             settingsStrings[6].setFillColor(Color::White);
