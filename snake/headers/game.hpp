@@ -11,6 +11,7 @@
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
 #define head snake[0]
+#define snakeInitialPosition {Vector2f(100, 100), Vector2f(80, 100), Vector2f(60, 100)}
 
 using namespace sf;
 using namespace std;

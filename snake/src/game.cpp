@@ -25,9 +25,9 @@ void Game::startGame() {
 // This is the initial snake created at the start of each level
 void Game::newSnake() {
   snake.clear(); // czyszczenie wektora
-  snake.emplace_back(Vector2f(100, 100));
-  snake.emplace_back(Vector2f(80, 100));
-  snake.emplace_back(Vector2f(60, 100));
+  for(auto &s: snakeInitialPosition) {
+    snake.emplace_back(s);
+  }
 }
 
 void Game::addSnakeSection() {
