@@ -3,7 +3,7 @@
 void Game::update() {
     // update snake positions
     if(timeSinceLastMove.asSeconds() >= seconds(1.f / float(speed)).asSeconds()) {
-        Vector2f thisSectionPosition = snake[0].getPosition();
+        Vector2f thisSectionPosition = head.getPosition();
         Vector2f lastSectionPosition = thisSectionPosition;
 
         // does the snake need to change direction? (anything in the input queue?)
@@ -46,16 +46,16 @@ void Game::update() {
     // update the head position
     switch (snakeDirection) {
             case Direction::UP:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - 20));
+                head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - 20));
                 break;
             case Direction::DOWN:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + 20));
+                head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + 20));
                 break;
             case Direction::RIGHT:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x + 20, thisSectionPosition.y));
+                head.setPosition(Vector2f(thisSectionPosition.x + 20, thisSectionPosition.y));
                 break;
             case Direction::LEFT:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x - 20, thisSectionPosition.y));
+                head.setPosition(Vector2f(thisSectionPosition.x - 20, thisSectionPosition.y));
                 break;
         
             default:
@@ -76,13 +76,21 @@ void Game::update() {
         }
 
     // Collision detection - Food
-    if (snake[0].getShape().getGlobalBounds().intersects(food.getAppleSpace().getGlobalBounds())) {
+    if (head.getShape().getGlobalBounds().intersects(food.getAppleSpace().getGlobalBounds())) {
       // We hit the food, add more sections to the snake, increase speed and move the food
 // TODO - increment score, foods eaten, add snake sections and check if its time for the next level
 
       sectionsToAdd += 4;
       speed++;
       moveFood();
+    }
+
+    // snake body detection
+    for(size_t s = 1; s <snake.size(); s++) {
+        if(head.getShape().getGlobalBounds().intersects(snake[s].getShape().getGlobalBounds())) {
+            // snake ate itself: gameover
+            currentGameState = GameState::GAMEOVER;
+        }
     }
 
     // reset the last move timer

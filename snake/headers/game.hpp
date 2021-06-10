@@ -10,14 +10,15 @@
 
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
+#define head snake[0]
 
 using namespace sf;
 using namespace std;
 
 class Game {
 private:
-    enum GameState {MENU, OPTIONS, PLAYING, OVER, EXIT};
-    GameState gameState;
+    int currentGameState;
+    int lastGameState; // the last state the game was in when pausing
     Vector2f resolution;
     RenderWindow window;
     const unsigned int FPS = 60;
@@ -38,6 +39,7 @@ public:
     Game();
 
     enum Direction {UP, DOWN, RIGHT, LEFT};
+    enum GameState {MENU, OPTIONS, PLAYING, PAUSED, GAMEOVER, EXIT};
     
     void handleInput();
     void addDirection(int newDirection);
