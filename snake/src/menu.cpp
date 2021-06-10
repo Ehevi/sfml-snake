@@ -104,6 +104,16 @@ void Game::displaySettings() {
     borders = false;
     generateWalls = false;
     
+    _Settings.setString("Settings");
+    _InitialSpeed.setString("Initial speed");
+    _Acceleration.setString("Acceleration");
+    _RoundWorld.setString("Round world");
+    _RandomWallGeneration.setString("Random wall generation");
+    _Back.setString("Back");
+    _Slow.setString("Slow");
+    _Fast.setString("Fast");
+    _Ultrafast.setString("Ultrafast");
+    
     int i = 0;
     for(auto &s : settingsStrings) {
         s.setFont(font);
@@ -111,40 +121,14 @@ void Game::displaySettings() {
         centerHorizontally(s, 100 + 100 * i);
         i++;
     }
-    settingsStrings[0].setString("Settings");
-    settingsStrings[1].setString("Snake speed");
-    settingsStrings[2].setString("Can walk through border");
-    settingsStrings[3].setString("Random wall generation");
-    settingsStrings[4].setString("Back");
-    settingsStrings[5].setString("Slow");
-    settingsStrings[6].setString("Fast");
-    
-    settingsStrings[0].setCharacterSize(80);
-    centerHorizontally(settingsStrings[0], 50);
 
+    _Settings.setCharacterSize(80);
+    centerHorizontally(_Settings, 50);
+
+    centerHorizontally(_Slow, _Fast, _Ultrafast, 240);
     
-    //Set 'Slow' string
-    settingsStrings[5].setCharacterSize(40);
-    // centerHorizontally(settingsStrings[5], 240);
-    settingsStrings[5].setPosition(SCREEN_WIDTH / 2 - settingsStrings[5].getGlobalBounds().width, 240);
-    
-    //Set 'Fast' string
-    settingsStrings[6].setCharacterSize(40);
-    // centerHorizontally(settingsStrings[6], 240);
-    settingsStrings[6].setPosition(SCREEN_WIDTH / 2 + settingsStrings[5].getGlobalBounds().width / 4, 240);
-    
-    //Set checkboxes
-    bordersCheckBox.setSize(Vector2f(20,20));
-    bordersCheckBox.setOutlineColor(Color::Red);
-    bordersCheckBox.setFillColor(Color::Black);
-    bordersCheckBox.setOutlineThickness(5);
-    centerHorizontally(bordersCheckBox, 350);
-    
-    wallsCheckBox.setSize(Vector2f(20,20));
-    wallsCheckBox.setOutlineColor(Color::Red);
-    wallsCheckBox.setFillColor(Color::Black);
-    wallsCheckBox.setOutlineThickness(5);
-    centerHorizontally(wallsCheckBox, 450);
+    setCheckBox(bordersCheckBox, 350);
+    setCheckBox(wallsCheckBox, 450);
     
     Event event;
 

@@ -40,7 +40,7 @@ private:
 
     Text title;
     Text menuStrings[3];
-    Text settingsStrings[7];
+    Text settingsStrings[9];
     Text score;
     Text gameTime;
     Text gameOverStrings[4];
