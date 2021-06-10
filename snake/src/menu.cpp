@@ -1,5 +1,6 @@
 #include "../headers/game.hpp"
 #include "../headers/utils.hpp"
+#include <set>
 
 void Game::handleMenu() {
     while(1) {
@@ -100,35 +101,52 @@ void Game::displayMenu() {
 
 void Game::displaySettings() {
     // default settings
-    speed = 2;
-    borders = false;
-    generateWalls = false;
+    speed = SPEED_SLOW;
+    acceleration = true;
+    wallGeneration = false;
+    wallsAround = false;
     
     _Settings.setString("Settings");
     _InitialSpeed.setString("Initial speed");
     _Acceleration.setString("Acceleration");
-    _RoundWorld.setString("Round world");
+    _WallsAround.setString("Walls around");
     _RandomWallGeneration.setString("Random wall generation");
     _Back.setString("Back");
     _Slow.setString("Slow");
     _Fast.setString("Fast");
     _Ultrafast.setString("Ultrafast");
     
-    int i = 0;
+    
+    std::set <size_t> size40;
+    int n = sizeof(size40Indexes) / sizeof(size40Indexes[0]);
+    size40.insert(size40Indexes, size40Indexes + n);
+    //for (size_t i = 0; i < SETTINGS_STRINGS_NO; i++) {
+    int i =0;
     for(auto &s : settingsStrings) {
+        //Text s = settingsStrings[i];
         s.setFont(font);
-        s.setCharacterSize(40);
-        centerHorizontally(s, 100 + 100 * i);
+        // index ??
+        // settingsStrings[i].setCharacterSize(size40.find(i) != size40.end()? 40 : 25);
+        // size40.find(i) != size40.end() ? settingsStrings[i].setCharacterSize(40) : settingsStrings[i].setCharacterSize(25);
+        // i == _Slow.index ||
+        // s == _Slow || s == _Fast || s == _Ultrafast || s == _Back ? s.setCharacterSize(40) : s.setCharacterSize(25);
+        s.setCharacterSize(25);
+        centerHorizontally(s, 100 + 80 * i);
         i++;
     }
 
     _Settings.setCharacterSize(80);
     centerHorizontally(_Settings, 50);
 
-    centerHorizontally(_Slow, _Fast, _Ultrafast, 240);
+    centerHorizontally(_Slow, _Fast, _Ultrafast, 205);
+    _Slow.setCharacterSize(40);
+    _Fast.setCharacterSize(40);
+    _Ultrafast.setCharacterSize(40);
+    _Back.setCharacterSize(40);
     
-    setCheckBox(bordersCheckBox, 350);
-    setCheckBox(wallsCheckBox, 450);
+    initCheckBox(accelerationCheckBox, 300);
+    initCheckBox(wallGenerationCheckBox, 400);
+    initCheckBox(wallsAroundCheckBox, 500);
     
     Event event;
 
@@ -138,26 +156,30 @@ void Game::displaySettings() {
         while(window.pollEvent(event)) {
             switch (event.type) {
                 case Event::MouseButtonReleased:
-                    // "Back" in settings
-                    if(settingsStrings[4].getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
+                    if(_Back.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
                         setCurrentGameState(GameState::MENU);
                     
-                    // set snake slow
-                    if(settingsStrings[5].getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left && speed > 2)
-                        speed = 2;
+                    if(_Slow.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
+                        speed = SPEED_SLOW;
                     
-                    // set snake fast
-                    if(settingsStrings[6].getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left && speed == 2)
-                        speed = 5;
+                    if(_Fast.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
+                        speed = SPEED_FAST;
                     
-                    // borders flag
-                    if(bordersCheckBox.getGlobalBounds().contains(mouse)) {
-                        borders = !borders;
+                    if(_Ultrafast.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
+                        speed = SPEED_ULTRAFAST;
+                    
+                    if(accelerationCheckBox.getGlobalBounds().contains(mouse)) {
+                        acceleration =! acceleration;
+                    }
+
+                    // wallGeneration flag
+                    if(wallGenerationCheckBox.getGlobalBounds().contains(mouse)) {
+                        wallGeneration = !wallGeneration;
                     }
 
                     // wall generation flag
-                    if (wallsCheckBox.getGlobalBounds().contains(mouse)) {
-                        generateWalls = !generateWalls;
+                    if (wallsAroundCheckBox.getGlobalBounds().contains(mouse)) {
+                        wallsAround = !wallsAround;
                     }
 
                     break;
@@ -173,37 +195,30 @@ void Game::displaySettings() {
             }   
         }
       
-        if(settingsStrings[4].getGlobalBounds().contains(mouse)) //Change 'Back' string color to green on mouse hover
-            settingsStrings[4].setFillColor(Color::Green);
-        else
-            settingsStrings[4].setFillColor(Color::White);
-      
-        //Highlight string on mouse hover when it is not choosen (yellow)
-        if(settingsStrings[5].getGlobalBounds().contains(mouse) && speed > 2)
-            settingsStrings[5].setFillColor(Color::Green);
-        else
-            settingsStrings[5].setFillColor(Color::White);
-      
-      //Same as before
-        if(settingsStrings[6].getGlobalBounds().contains(mouse) && speed == 2)
-            settingsStrings[6].setFillColor(Color::Green);
-        else
-            settingsStrings[6].setFillColor(Color::White);
-      
+        highlightOnHover(_Slow, mouse);
+        highlightOnHover(_Fast, mouse);
+        highlightOnHover(_Ultrafast, mouse);
+        highlightOnHover(_Back, mouse);
+        
+        // TODO : handle selection
+
+        /*
         //Highlight choosen option in Snake speed
         speed == 2 ? settingsStrings[5].setFillColor(Color::Yellow) : settingsStrings[6].setFillColor(Color::Yellow);
       
+        */
         // mark or unmark checkboxes
-        bordersCheckBox.setFillColor(borders ? Color::Yellow : Color::Black);
-        wallsCheckBox.setFillColor(generateWalls ? Color::Yellow : Color::Black);
+        wallGenerationCheckBox.setFillColor(wallGeneration ? Color::Yellow : Color::Black);
+        wallsAroundCheckBox.setFillColor(wallsAround ? Color::Yellow : Color::Black);
       
         window.clear();
       
         for (auto &s : settingsStrings)
             window.draw(s);
       
-        window.draw(bordersCheckBox);
-        window.draw(wallsCheckBox);
+        window.draw(accelerationCheckBox);
+        window.draw(wallGenerationCheckBox);
+        window.draw(wallsAroundCheckBox);
       
         window.display();
     }

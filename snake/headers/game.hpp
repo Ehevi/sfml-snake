@@ -39,19 +39,20 @@ private:
     Font font;
 
     Text title;
-    Text menuStrings[3];
-    Text settingsStrings[9];
+    Text menuStrings[MENU_STRINGS_N0];
+    Text settingsStrings[SETTINGS_STRINGS_NO];
     Text score;
     Text gameTime;
-    Text gameOverStrings[4];
-    Text pauseString;
+    Text pauseText;
+    Text gameOverText;
 
-    bool generateWalls;
-    bool borders;
+    bool acceleration;
+    bool wallsAround;
+    bool wallGeneration;
 
-    RectangleShape speedCheckBox;
-    RectangleShape wallsCheckBox;
-    RectangleShape bordersCheckBox;
+    RectangleShape accelerationCheckBox;
+    RectangleShape wallsAroundCheckBox;
+    RectangleShape wallGenerationCheckBox;
 
     // Menu end
 

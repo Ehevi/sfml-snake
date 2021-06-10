@@ -15,10 +15,22 @@ void centerHorizontally(Text &text1, Text &text2, Text &text3, int y) {
     text3.setPosition(space + text3.getGlobalBounds().width, y);
 }
 
-void setCheckBox(RectangleShape &checkBox, int y) {
+void initCheckBox(RectangleShape &checkBox, int y) {
     checkBox.setSize(_CheckBoxSize);
     checkBox.setOutlineColor(Color::Magenta);
     checkBox.setFillColor(Color::Black);
     checkBox.setOutlineThickness(3);
     centerHorizontally(checkBox, y);
+}
+
+void handleSpeedSelection() {
+
+}
+
+void highlightOnHover(Text &text, Vector2f mouse) {
+    text.setFillColor(text.getGlobalBounds().contains(mouse)? Color::Green : Color::White);
+}
+
+void highlightChosenOption() {
+    
 }
