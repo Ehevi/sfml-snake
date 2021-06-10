@@ -26,7 +26,14 @@ void Game::handleInput() {
                         break;
                     case Keyboard::Space:
                         handlePause();
+                        if (currentGameState == GameState::GAMEOVER) {
+                            startGame();
+                        }
+                        break;
                     default:
+                        if (currentGameState == GameState::GAMEOVER) {
+                            startGame();
+                        }
                         break;
                 }
                 break;

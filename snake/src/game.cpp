@@ -7,14 +7,17 @@ Game::Game() {
   window.create(VideoMode(resolution.x, resolution.y), "Snake", Style::Default);
   window.setFramerateLimit(FPS);
 
+  startGame();
+}
+
+void Game::startGame() {
   speed = 2;
   snakeDirection = Direction::RIGHT;
-
   timeSinceLastMove = Time::Zero;
-
   currentGameState = GameState::PLAYING;
-
+  lastGameState = currentGameState;
   sectionsToAdd = 0;
+  directionQueue.clear();
   newSnake();
   moveFood();
 }
@@ -64,11 +67,16 @@ void Game::moveFood() {
 }
 
 void Game::handlePause() {
-  if (currentGameState == GameState::PLAYING) {
-    lastGameState = currentGameState;
-    currentGameState = GameState::PAUSED;
-  } else if (currentGameState == GameState::PAUSED) {
-    currentGameState = lastGameState;
+  switch(currentGameState) {
+    case GameState::PLAYING:
+      lastGameState = currentGameState;
+      currentGameState = GameState::PAUSED;
+      break;
+    case GameState::PAUSED:
+      currentGameState = lastGameState;
+      break;
+    default:
+      break;
   }
 }
 
@@ -80,22 +88,20 @@ void Game::run() {
     Time dt = clock.restart();
     timeSinceLastMove += dt;
 
-    if (currentGameState == GameState::PAUSED || currentGameState == GameState::GAMEOVER) {
-      // paused?: check for input (so the player can unpause the game)
-      handleInput();
-
-      // draw the gameover screen
-      if (currentGameState == GameState::GAMEOVER) {
-        draw();
-      }
-
-      sleep(microseconds(2)); // sleep so we don't peg the CPU
-      // otherwise the loop will be iterating as fast as it possibly can
-      continue;
-    }
-
     handleInput();
-    update();
-    draw();
+
+    switch (currentGameState) {
+      case GameState::PAUSED:
+        sleep(microseconds(2)); // sleep so we don't peg the CPU
+      // otherwise the loop will be iterating as fast as it possibly can
+        continue;
+      case GameState::GAMEOVER:
+        draw();
+        sleep(microseconds(2));
+        continue;
+      default:
+        update();
+        draw();
+    }
   }
 }
