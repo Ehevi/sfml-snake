@@ -19,7 +19,7 @@ using namespace std;
 class Game {
 private:
     int currentGameState;
-    int lastGameState; // the last state the game was in when pausing
+    int prevGameState; // the last state the game was in when pausing
     Vector2f resolution;
     RenderWindow window;
     const unsigned int FPS = 60;
@@ -36,12 +36,49 @@ private:
 
     Time timeSinceLastMove;
 
+    // Menu
+    Font font;
+    Text menuStrings[3];
+    Text settingsStrings[7];
+    Text score;
+    Text gameTime;
+    Text gameOverStrings[4];
+    Text pauseString;
+
+    int snakeSpeed;
+    bool generateWalls;
+    bool borders;
+    bool isGamePaused;
+
+    RectangleShape speedCheckBox;
+    RectangleShape wallsCheckBox;
+    RectangleShape bordersCheckBox;
+
+    // Menu end
+
 public:
     Game();
 
     enum Direction {UP, DOWN, RIGHT, LEFT};
-    enum GameState {MENU, OPTIONS, PLAYING, PAUSED, GAMEOVER, EXIT};
-    
+    enum GameState {MENU, SETTINGS, PLAYING, PAUSED, GAMEOVER, EXIT};
+
+    int getCurrentGameState() {
+        return currentGameState;
+    };
+
+    void setCurrentGameState(int newState) {
+        prevGameState = currentGameState;
+        currentGameState = newState;
+    }
+
+    void setSpeed(int selectedSpeed) {
+        speed = selectedSpeed;
+    }
+
+    int getSpeed() {
+        return speed;
+    }
+
     void handleInput();
     void addDirection(int newDirection);
     void update();
@@ -54,10 +91,16 @@ public:
     void moveFood();
 
     void startGame();
+    void handleMenu();
 
     void handlePause();
 
     void run(); // main loop
+
+    // menu
+    void displayMenu();
+    void displaySettings();
+    // end menu
 
 };
 
