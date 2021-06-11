@@ -1,4 +1,12 @@
+#include <iostream>
 #include "../headers/utils.hpp"
+
+void loadFont(Font &font) {
+    if (!font.loadFromFile("font/Poppins-Regular.otf")) {
+        std::cout << "Failed to load font! :(";
+        return;
+  }
+}
 
 void centerHorizontally(Text &text, int y) {
     text.setPosition(SCREEN_WIDTH / 2 - text.getGlobalBounds().width / 2, y);

@@ -69,15 +69,13 @@ void Game::displayMenu() {
                     break;
                 case Event::MouseButtonReleased:
                     if (event.mouseButton.button == Mouse::Left) {
-                        if(menuStrings[0].getGlobalBounds().contains(mouse))
-                            startGame();
+                        if (menuStrings[0].getGlobalBounds().contains(mouse))
+                            currentGameState = GameState::PLAYING;
                 
-                        if(menuStrings[1].getGlobalBounds().contains(mouse)) {
-                            displaySettings();
+                        if (menuStrings[1].getGlobalBounds().contains(mouse))
                             currentGameState = GameState::SETTINGS;
-                        }
                 
-                        if(menuStrings[2].getGlobalBounds().contains(mouse)) 
+                        if (menuStrings[2].getGlobalBounds().contains(mouse)) 
                             currentGameState = GameState::EXIT;
                     }
                     break;
@@ -91,8 +89,8 @@ void Game::displayMenu() {
 
         window.draw(title);
         for(auto &ms : menuStrings) {
-            window.draw(ms);
             highlightOnHover(ms, mouse);
+            window.draw(ms);
         }
         
         window.display();
@@ -100,12 +98,6 @@ void Game::displayMenu() {
 }
 
 void Game::displaySettings() {
-    // default settings
-    speed = SPEED_SLOW;
-    acceleration = true;
-    wallGeneration = false;
-    wallsAround = false;
-    
     _Settings.setString("Settings");
     _InitialSpeed.setString("Initial speed");
     _Acceleration.setString("Acceleration");
@@ -115,7 +107,6 @@ void Game::displaySettings() {
     _Slow.setString("Slow");
     _Fast.setString("Fast");
     _Ultrafast.setString("Ultrafast");
-    
     
     std::set <size_t> mediumSet;
     int n = sizeof(mediumIndexes) / sizeof(mediumIndexes[0]);
@@ -145,16 +136,16 @@ void Game::displaySettings() {
                 case Event::MouseButtonReleased:
                     if (event.mouseButton.button == Mouse::Left) {
                         if (_Back.getGlobalBounds().contains(mouse))
-                            setCurrentGameState(GameState::MENU);
+                            currentGameState = GameState::MENU;
                         
                         if (_Slow.getGlobalBounds().contains(mouse))
-                            speed = SPEED_SLOW;
+                            initialSpeed = SPEED_SLOW;
                     
                         if (_Fast.getGlobalBounds().contains(mouse))
-                            speed = SPEED_FAST;
+                            initialSpeed = SPEED_FAST;
                     
                         if (_Ultrafast.getGlobalBounds().contains(mouse))
-                            speed = SPEED_ULTRAFAST;
+                            initialSpeed = SPEED_ULTRAFAST;
 
                         if (accelerationCheckBox.getGlobalBounds().contains(mouse))
                             acceleration = !acceleration;
@@ -169,10 +160,10 @@ void Game::displaySettings() {
                     break;
                 case Event::KeyPressed:
                     if (event.key.code == Keyboard::Escape)
-                        setCurrentGameState(GameState::MENU);
+                        currentGameState = GameState::MENU;
                     break;
                 case Event::Closed:
-                    setCurrentGameState(GameState::EXIT);
+                    currentGameState = GameState::EXIT;
                     return;
                 default:
                     break;
@@ -187,7 +178,7 @@ void Game::displaySettings() {
         highlightOnHover(wallGenerationCheckBox, mouse);
         highlightOnHover(wallsAroundCheckBox, mouse);
 
-        switch (speed) {
+        switch (initialSpeed) {
             case SPEED_SLOW:
                 highlightChosen(_Slow);
                 break;

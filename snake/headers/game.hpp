@@ -29,6 +29,7 @@ private:
     int snakeDirection;
     deque<int> directionQueue; // queue for direction key presses
     int speed;
+    int initialSpeed;
     int sectionsToAdd; // how many sections to add to the snake
 
     Food food;
@@ -61,15 +62,6 @@ public:
 
     enum Direction {UP, DOWN, RIGHT, LEFT};
     enum GameState {MENU, SETTINGS, PLAYING, PAUSED, GAMEOVER, EXIT};
-
-    int getCurrentGameState() {
-        return currentGameState;
-    };
-
-    void setCurrentGameState(int newState) {
-        prevGameState = currentGameState;
-        currentGameState = newState;
-    }
 
     void handleInput();
     void addDirection(int newDirection);

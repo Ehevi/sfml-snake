@@ -4,24 +4,26 @@
 const sf::Time Game::TimePerFrame = seconds(1.f/60.f);
 
 Game::Game() {
-  if(!font.loadFromFile("font/Poppins-Regular.otf")) {
-    std::cout << "Failed to load font! :(";
-    return;
-  }
+  loadFont(font);
   
   resolution = Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT);
   window.create(VideoMode(resolution.x, resolution.y), "Snake", Style::Default);
   window.setFramerateLimit(FPS);
+
+  // default settings
+  initialSpeed = SPEED_SLOW;
+  acceleration = true;
+  wallGeneration = false;
+  wallsAround = false;
 
   currentGameState = MENU;
   handleMenu();
 }
 
 void Game::startGame() {
-  // speed = 2;
+  speed = initialSpeed;
   snakeDirection = Direction::RIGHT;
   timeSinceLastMove = Time::Zero;
-  currentGameState = GameState::PLAYING;
   prevGameState = currentGameState;
   sectionsToAdd = 0;
   directionQueue.clear();
