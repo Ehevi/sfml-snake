@@ -92,9 +92,9 @@ void Game::displayMenu() {
         window.draw(title);
         for(auto &ms : menuStrings) {
             window.draw(ms);
-            ms.getGlobalBounds().contains(mouse)? ms.setFillColor(Color::Green) : ms.setFillColor(Color::White);
+            highlightOnHover(ms, mouse);
         }
-            
+        
         window.display();
     }
 }
@@ -117,12 +117,12 @@ void Game::displaySettings() {
     _Ultrafast.setString("Ultrafast");
     
     
-    std::set <size_t> size40;
+    std::set <size_t> mediumSet;
     int n = sizeof(mediumIndexes) / sizeof(mediumIndexes[0]);
-    size40.insert(mediumIndexes, mediumIndexes + n);
+    mediumSet.insert(mediumIndexes, mediumIndexes + n);
     for (size_t i = 0; i < SETTINGS_STRINGS_NO; i++) {
         settingsStrings[i].setFont(font);
-        settingsStrings[i].setCharacterSize(size40.find(i) != size40.end()? MEDIUM_FONT_SIZE : SMALL_FONT_SIZE);
+        settingsStrings[i].setCharacterSize(mediumSet.find(i) != mediumSet.end()? MEDIUM_FONT_SIZE : SMALL_FONT_SIZE);
         centerHorizontally(settingsStrings[i], 100 + 80 * i);
     }
 
@@ -137,38 +137,35 @@ void Game::displaySettings() {
     
     Event event;
 
-    while(currentGameState == Game::SETTINGS) {
+    while (currentGameState == Game::SETTINGS) {
         Vector2f mouse(Mouse::getPosition(window));
       
-        while(window.pollEvent(event)) {
+        while (window.pollEvent(event)) {
             switch (event.type) {
                 case Event::MouseButtonReleased:
-                    if(_Back.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
-                        setCurrentGameState(GameState::MENU);
+                    if (event.mouseButton.button == Mouse::Left) {
+                        if (_Back.getGlobalBounds().contains(mouse))
+                            setCurrentGameState(GameState::MENU);
+                        
+                        if (_Slow.getGlobalBounds().contains(mouse))
+                            speed = SPEED_SLOW;
                     
-                    if(_Slow.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
-                        speed = SPEED_SLOW;
+                        if (_Fast.getGlobalBounds().contains(mouse))
+                            speed = SPEED_FAST;
                     
-                    if(_Fast.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
-                        speed = SPEED_FAST;
-                    
-                    if(_Ultrafast.getGlobalBounds().contains(mouse) && event.mouseButton.button == Mouse::Left)
-                        speed = SPEED_ULTRAFAST;
-                    
-                    if(accelerationCheckBox.getGlobalBounds().contains(mouse)) {
-                        acceleration =! acceleration;
-                    }
+                        if (_Ultrafast.getGlobalBounds().contains(mouse))
+                            speed = SPEED_ULTRAFAST;
 
-                    // wallGeneration flag
-                    if(wallGenerationCheckBox.getGlobalBounds().contains(mouse)) {
-                        wallGeneration = !wallGeneration;
-                    }
+                        if (accelerationCheckBox.getGlobalBounds().contains(mouse))
+                            acceleration = !acceleration;
+                        
+                        if (wallGenerationCheckBox.getGlobalBounds().contains(mouse))
+                            wallGeneration = !wallGeneration;
 
-                    // wall generation flag
-                    if (wallsAroundCheckBox.getGlobalBounds().contains(mouse)) {
-                        wallsAround = !wallsAround;
-                    }
+                        if (wallsAroundCheckBox.getGlobalBounds().contains(mouse))
+                            wallsAround = !wallsAround;
 
+                    }
                     break;
                 case Event::KeyPressed:
                     if (event.key.code == Keyboard::Escape)
@@ -186,17 +183,24 @@ void Game::displaySettings() {
         highlightOnHover(_Fast, mouse);
         highlightOnHover(_Ultrafast, mouse);
         highlightOnHover(_Back, mouse);
-        
-        // TODO : handle selection
 
-        /*
-        //Highlight choosen option in Snake speed
-        speed == 2 ? settingsStrings[5].setFillColor(Color::Yellow) : settingsStrings[6].setFillColor(Color::Yellow);
-      
-        */
-        // mark or unmark checkboxes
-        wallGenerationCheckBox.setFillColor(wallGeneration ? Color::Yellow : Color::Black);
-        wallsAroundCheckBox.setFillColor(wallsAround ? Color::Yellow : Color::Black);
+        switch (speed) {
+            case SPEED_SLOW:
+                highlightChosen(_Slow);
+                break;
+            case SPEED_FAST:
+                highlightChosen(_Fast);
+                break;
+            case SPEED_ULTRAFAST:
+                highlightChosen(_Ultrafast);
+                break;
+            default:
+                break;
+        }
+
+        handleCheckBoxSelection(accelerationCheckBox, acceleration);
+        handleCheckBoxSelection(wallGenerationCheckBox, wallGeneration);
+        handleCheckBoxSelection(wallsAroundCheckBox, wallsAround);
       
         window.clear();
       

@@ -32,17 +32,15 @@ using namespace sf;
 const int mediumIndexes[] = {5, 6, 7, 8};
 
 void centerHorizontally(Text &text, int y);
-
 void centerHorizontally(RectangleShape &shape, int y);
-
 void centerHorizontally(Text &text1, Text &text2, Text &text3, int y);
 
 void initCheckBox(RectangleShape &checkBox, int y);
-
-void handleSpeedSelection();
+void handleCheckBoxSelection(RectangleShape &checkBox, bool predicate);
 
 void highlightOnHover(Text &text, Vector2f mouse);
+void highlightOnHover(RectangleShape &shape, Vector2f mouse);
 
-void highlightChosenOption();
+void highlightChosen(Text &text);
 
 #endif //UTILS_HPP

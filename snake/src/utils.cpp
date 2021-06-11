@@ -23,14 +23,18 @@ void initCheckBox(RectangleShape &checkBox, int y) {
     centerHorizontally(checkBox, y);
 }
 
-void handleSpeedSelection() {
-
+void handleCheckBoxSelection(RectangleShape &checkBox, bool predicate) {
+    checkBox.setFillColor(predicate ? Color::Cyan : Color::Black);
 }
 
 void highlightOnHover(Text &text, Vector2f mouse) {
-    text.setFillColor(text.getGlobalBounds().contains(mouse)? Color::Green : Color::White);
+    text.setFillColor(text.getGlobalBounds().contains(mouse)? Color::Yellow : Color::White);
 }
 
-void highlightChosenOption() {
-    
+void highlightOnHover(RectangleShape &shape, Vector2f mouse) {
+    shape.setFillColor(shape.getGlobalBounds().contains(mouse)? Color::Yellow : Color::Black);
+}
+
+void highlightChosen(Text &text) {
+    text.setFillColor(Color::Cyan);
 }
