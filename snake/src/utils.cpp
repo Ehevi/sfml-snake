@@ -24,7 +24,7 @@ void initCheckBox(RectangleShape &checkBox, int y) {
 }
 
 void handleCheckBoxSelection(RectangleShape &checkBox, bool predicate) {
-    checkBox.setFillColor(predicate ? Color::Cyan : Color::Black);
+    if (predicate) checkBox.setFillColor(Color::Cyan);
 }
 
 void highlightOnHover(Text &text, Vector2f mouse) {

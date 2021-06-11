@@ -183,6 +183,9 @@ void Game::displaySettings() {
         highlightOnHover(_Fast, mouse);
         highlightOnHover(_Ultrafast, mouse);
         highlightOnHover(_Back, mouse);
+        highlightOnHover(accelerationCheckBox, mouse);
+        highlightOnHover(wallGenerationCheckBox, mouse);
+        highlightOnHover(wallsAroundCheckBox, mouse);
 
         switch (speed) {
             case SPEED_SLOW:
@@ -201,7 +204,7 @@ void Game::displaySettings() {
         handleCheckBoxSelection(accelerationCheckBox, acceleration);
         handleCheckBoxSelection(wallGenerationCheckBox, wallGeneration);
         handleCheckBoxSelection(wallsAroundCheckBox, wallsAround);
-      
+        
         window.clear();
       
         for (auto &s : settingsStrings)
@@ -212,5 +215,7 @@ void Game::displaySettings() {
         window.draw(wallsAroundCheckBox);
       
         window.display();
+
+        sleep(microseconds(2));
     }
 }
