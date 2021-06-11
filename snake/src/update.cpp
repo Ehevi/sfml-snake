@@ -2,7 +2,7 @@
 
 void Game::update() {
     // update snake positions
-    if(timeSinceLastMove.asSeconds() >= seconds(1.f / float(speed)).asSeconds()) {
+    if (timeSinceLastMove.asSeconds() >= seconds(1.f / float(speed)).asSeconds()) {
         Vector2f thisSectionPosition = head.getPosition();
         Vector2f lastSectionPosition = thisSectionPosition;
 
@@ -11,24 +11,20 @@ void Game::update() {
             // make sure we don't reverse direction
             switch (snakeDirection) {
                 case Direction::UP:
-                    if(directionQueue.front() != Direction::DOWN) {
+                    if (directionQueue.front() != Direction::DOWN)
                         snakeDirection = directionQueue.front();
-                    }
                     break;
                 case Direction::DOWN:
-                    if(directionQueue.front() != Direction::UP) {
+                    if (directionQueue.front() != Direction::UP)
                         snakeDirection = directionQueue.front();
-                    }
                     break;
                 case Direction::RIGHT:
-                    if(directionQueue.front() != Direction::LEFT) {
+                    if (directionQueue.front() != Direction::LEFT)
                         snakeDirection = directionQueue.front();
-                    }
                     break;
                 case Direction::LEFT:
-                    if(directionQueue.front() != Direction::RIGHT) {
+                    if (directionQueue.front() != Direction::RIGHT)
                         snakeDirection = directionQueue.front();
-                    }
                     break;
                 default:
                     break;
@@ -57,42 +53,37 @@ void Game::update() {
             case Direction::LEFT:
                 head.setPosition(Vector2f(thisSectionPosition.x - 20, thisSectionPosition.y));
                 break;
-        
             default:
                 break;
         }
 
-        //update the snake tail positions
+    //update the snake tail positions
+    for (size_t s = 1; s<snake.size(); s++) {
+        thisSectionPosition = snake[s].getPosition();
+        snake[s].setPosition(lastSectionPosition);
+        lastSectionPosition = thisSectionPosition;
+    }
 
-        for(size_t s = 1; s<snake.size(); s++) {
-            thisSectionPosition = snake[s].getPosition();
-            snake[s].setPosition(lastSectionPosition);
-            lastSectionPosition = thisSectionPosition;
-        }
-
-        // run snake section update function
-        for (auto & s : snake) {
-            s.update();
-        }
+    // run snake section update function
+    for (auto &s : snake)
+        s.update();
 
     // Collision detection - Food
     if (head.getShape().getGlobalBounds().intersects(food.getAppleSpace().getGlobalBounds())) {
-      // We hit the food, add more sections to the snake, increase speed and move the food
-// TODO - increment score, foods eaten, add snake sections and check if its time for the next level
+        // We hit the food, add more sections to the snake, increase speed and move the food
+        // TODO - increment score, foods eaten, add snake sections and check if its time for the next level
 
-      sectionsToAdd += 4;
-      speed++;
-      moveFood();
+        sectionsToAdd++;
+        if (acceleration) speed++;
+        moveFood();
     }
 
     // snake body detection
-    for(size_t s = 1; s <snake.size(); s++) {
-        if(head.getShape().getGlobalBounds().intersects(snake[s].getShape().getGlobalBounds())) {
+    for (size_t s = 1; s <snake.size(); s++)
+        if (head.getShape().getGlobalBounds().intersects(snake[s].getShape().getGlobalBounds()))
             // snake ate itself: gameover
             currentGameState = GameState::GAMEOVER;
-        }
-    }
-
+    
     // reset the last move timer
     timeSinceLastMove = Time::Zero;
   } // ENDIF: update snake position
