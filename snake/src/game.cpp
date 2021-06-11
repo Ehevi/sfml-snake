@@ -17,7 +17,6 @@ Game::Game() {
   wallsAround = false;
 
   currentGameState = MENU;
-  handleMenu();
 }
 
 void Game::startGame() {
@@ -27,7 +26,9 @@ void Game::startGame() {
   prevGameState = currentGameState;
   sectionsToAdd = 0;
   directionQueue.clear();
+
   newSnake();
+  run();
   moveFood();
 }
 
@@ -92,8 +93,7 @@ void Game::handlePause() {
 void Game::run() {
   Clock clock;
 
-  // main loop - runs until the window is closed
-  while (window.isOpen()) {
+  while (true) {
     Time dt = clock.restart();
     timeSinceLastMove += dt;
 
@@ -103,11 +103,14 @@ void Game::run() {
       case GameState::PAUSED:
         sleep(microseconds(2)); // sleep so we don't peg the CPU
       // otherwise the loop will be iterating as fast as it possibly can
-        continue;
+        break;
       case GameState::GAMEOVER:
         draw();
         sleep(microseconds(2));
-        continue;
+        break;
+      case GameState::MENU:
+      case GameState::EXIT:
+        return;
       default:
         update();
         draw();

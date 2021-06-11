@@ -5,12 +5,12 @@ void Game::handleInput() {
     while(window.pollEvent(event)) {
         switch(event.type) {
             case Event::Closed:
-                window.close();
+                currentGameState = GameState::EXIT;
                 break;
             case Event::KeyPressed:
                 switch (event.key.code) {
                     case Keyboard::Escape:
-                        prevGameState = currentGameState;
+                        // prevGameState = currentGameState;
                         currentGameState = GameState::MENU;
                         handleMenu();
                         return;
@@ -29,11 +29,13 @@ void Game::handleInput() {
                     case Keyboard::Space:
                         handlePause();
                         if (currentGameState == GameState::GAMEOVER) {
+                            currentGameState = GameState::PLAYING;
                             startGame();
                         }
                         break;
                     default:
                         if (currentGameState == GameState::GAMEOVER) {
+                            currentGameState = GameState::PLAYING;
                             startGame();
                         }
                         break;

@@ -3,8 +3,8 @@
 #include <set>
 
 void Game::handleMenu() {
-    while(1) {
-        switch(currentGameState) {
+    while (true) {
+        switch (currentGameState) {
             case GameState::MENU:
                 displayMenu();
                 break;
@@ -18,6 +18,7 @@ void Game::handleMenu() {
                 window.close();
                 return;
             default:
+                // PAUSED and GAMEOVER states are handled when the game is running
                 break;
         }
         sleep(microseconds(2));
@@ -44,7 +45,7 @@ void Game::displayMenu() {
 
     Event event;
     
-    while(currentGameState == Game::MENU) {
+    while (currentGameState == Game::MENU) {
         Vector2f mouse(Mouse::getPosition(window));
         
         while (window.pollEvent(event)) {
@@ -88,7 +89,7 @@ void Game::displayMenu() {
         window.clear();
 
         window.draw(title);
-        for(auto &ms : menuStrings) {
+        for (auto &ms : menuStrings) {
             highlightOnHover(ms, mouse);
             window.draw(ms);
         }

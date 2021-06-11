@@ -2,6 +2,6 @@
 
 int main() {
   Game game;
-  game.run();
+  game.handleMenu();
   return 0;
 }
