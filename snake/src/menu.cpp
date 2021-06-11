@@ -27,7 +27,7 @@ void Game::handleMenu() {
 void Game::displayMenu() {
     title.setFont(font);
     title.setString("SFML Snake");
-    title.setCharacterSize(80);
+    title.setCharacterSize(LARGE_FONT_SIZE);
     centerHorizontally(title, 150);
     
     menuStrings[0].setString("Start");
@@ -37,7 +37,7 @@ void Game::displayMenu() {
     int i = 0;
     for (auto &ms : menuStrings) {
         ms.setFont(font);
-        ms.setCharacterSize(40);
+        ms.setCharacterSize(MEDIUM_FONT_SIZE);
         centerHorizontally(ms, 250 + 50 * i);
         i++;
     }
@@ -118,31 +118,18 @@ void Game::displaySettings() {
     
     
     std::set <size_t> size40;
-    int n = sizeof(size40Indexes) / sizeof(size40Indexes[0]);
-    size40.insert(size40Indexes, size40Indexes + n);
-    //for (size_t i = 0; i < SETTINGS_STRINGS_NO; i++) {
-    int i =0;
-    for(auto &s : settingsStrings) {
-        //Text s = settingsStrings[i];
-        s.setFont(font);
-        // index ??
-        // settingsStrings[i].setCharacterSize(size40.find(i) != size40.end()? 40 : 25);
-        // size40.find(i) != size40.end() ? settingsStrings[i].setCharacterSize(40) : settingsStrings[i].setCharacterSize(25);
-        // i == _Slow.index ||
-        // s == _Slow || s == _Fast || s == _Ultrafast || s == _Back ? s.setCharacterSize(40) : s.setCharacterSize(25);
-        s.setCharacterSize(25);
-        centerHorizontally(s, 100 + 80 * i);
-        i++;
+    int n = sizeof(mediumIndexes) / sizeof(mediumIndexes[0]);
+    size40.insert(mediumIndexes, mediumIndexes + n);
+    for (size_t i = 0; i < SETTINGS_STRINGS_NO; i++) {
+        settingsStrings[i].setFont(font);
+        settingsStrings[i].setCharacterSize(size40.find(i) != size40.end()? MEDIUM_FONT_SIZE : SMALL_FONT_SIZE);
+        centerHorizontally(settingsStrings[i], 100 + 80 * i);
     }
 
-    _Settings.setCharacterSize(80);
+    _Settings.setCharacterSize(LARGE_FONT_SIZE);
     centerHorizontally(_Settings, 50);
 
     centerHorizontally(_Slow, _Fast, _Ultrafast, 205);
-    _Slow.setCharacterSize(40);
-    _Fast.setCharacterSize(40);
-    _Ultrafast.setCharacterSize(40);
-    _Back.setCharacterSize(40);
     
     initCheckBox(accelerationCheckBox, 300);
     initCheckBox(wallGenerationCheckBox, 400);

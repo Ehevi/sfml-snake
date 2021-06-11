@@ -23,9 +23,13 @@
 #define SPEED_FAST 7
 #define SPEED_ULTRAFAST 15
 
+#define LARGE_FONT_SIZE 80
+#define MEDIUM_FONT_SIZE 40
+#define SMALL_FONT_SIZE 25
+
 using namespace sf;
 
-const int size40Indexes[] = {5, 6, 7, 8};
+const int mediumIndexes[] = {5, 6, 7, 8};
 
 void centerHorizontally(Text &text, int y);
 
