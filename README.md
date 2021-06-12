@@ -1,18 +1,25 @@
-# sfml-snake
+# SFML snake :snake:
 obligatory project for my C++ course at AGH UST
 
-1. https://www.sfml-dev.org/tutorials/2.5/start-linux.php
+## General idea
+### About the game
+### How to play
+### Settings
 
+## Running an app
+### Prerequisites
+#### Make sure you will be able to compile the project
+`g++` compiler, `cmake` etc. are needed. Most likely you already have them installed, but if you feel like it, run these commands just in case :see_no_evil:
+```shell
+sudo apt-get update
+sudo apt-get install build-essential g++ cmake libjpeg-dev libfreetype6-dev libglew-dev libxrandr-dev libopenal-dev libsndfile-dev libgl1-mesa-dev libxcb-image0-dev libudev-dev
 ```
-sudo apt-get install linsfml-dev
+#### SFML installation
+```shell
+sudo apt-get install libsfml-dev
 ```
 
-2. https://github.com/SFML/SFML/wiki/Tutorial:-Compile-and-Link-SFML-with-Qt-Creator
-
-3. qtcreator-template-sfml from here:
-https://github.com/maidis/qtcreator-template-sfml
-
-4. running an app:
+### Running the game
 ```
 git clone https://github.com/Ehevi/sfml-snake sfml-snake
 cd sfml-snake/snake
@@ -23,14 +30,18 @@ make
 ./snake
 ```
 
-5. cleanup:
+### Cleanup :broom:
+##### soft version
 ```
 cd ..
 rm -Rf build
-# or if you wanna remove everything
-# cd ../../..
-# rm -Rf sfml-snake
 ```
 
-6. about the code
-snake/cmake/FindSFML.cmake file comes from https://github.com/SFML/SFML-Game-Development-Book/blob/master/CMake/FindSFML.cmake
+##### ...or if following the steps above was the greatest mistake of your life :broken_heart:
+```
+cd ../../..
+rm -Rf sfml-snake
+```
+
+## The code I didn't write myself:
+[snake/cmake/FindSFML.cmake](https://github.com/Ehevi/sfml-snake/blob/main/snake/cmake/FindSFML.cmake) file comes from [SFML-Game-Development-Book](https://github.com/SFML/SFML-Game-Development-Book/blob/master/CMake/FindSFML.cmake) ([see the licence file](https://github.com/SFML/SFML-Game-Development-Book/blob/master/License.txt))
