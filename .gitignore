@@ -1,3 +1,4 @@
 snake/CMakeLists.txt.user
 snake/build
 snake/.vscode
+./vscode

@@ -72,7 +72,6 @@ public:
 
     void draw();
 
-    void newSnake();
     void addSnakeSection();
 
     void moveFood();
