@@ -23,27 +23,32 @@ Game::Game() {
 
 void Game::startGame() {
   speed = initialSpeed;
-  snakeDirection = Direction::RIGHT;
+  // snakeDirection = Direction::RIGHT;
   timeSinceLastMove = Time::Zero;
   prevGameState = currentGameState;
   sectionsToAdd = 0;
 
-  snake.clear();
+  snake.newSnake();
+  // snake.clear();
   walls.clear();
   directionQueue.clear();
 
+  /*
   for (auto &s : snakeInitialPosition)
     snake.emplace_back(s);
+  */
   if (wallsAround) drawWallsAround();
 
   run();
   moveFood();
 }
 
+/*
 void Game::addSnakeSection() {
   Vector2f newSectionPosition = snake[snake.size() - 1].getPosition();
   snake.emplace_back(newSectionPosition);
 }
+*/
 
 void Game::moveFood() {
   srand(time(nullptr));
@@ -70,12 +75,20 @@ void Game::moveFood() {
       }
     }
 
+    if(snake.intersects(Rect<float>(newFoodLocation.x, newFoodLocation.y, BLOCK, BLOCK))) {
+      badLocation = true;
+      break;
+    }
+    
+    /*
     for (auto &s : snake) {
       if (s.getShape().getGlobalBounds().intersects(Rect<float>(newFoodLocation.x, newFoodLocation.y, BLOCK, BLOCK))) {
         badLocation = true; // food was generated inside the snake
         break;
       }
     }
+    */
+
   } while (badLocation);
   food.setPosition(newFoodLocation);
 }
@@ -120,12 +133,18 @@ void Game::generateRandomWall() {
       }
     }
 
+    if(snake.intersects(Rect<float>(newWallPosition.x, newWallPosition.y, BLOCK, BLOCK))) {
+      badPosition = true;
+      break;
+    }
+    /*
     for (auto &s : snake) {
       if (s.getShape().getGlobalBounds().intersects(Rect<float>(newWallPosition.x, newWallPosition.y, BLOCK, BLOCK))) {
         badPosition = true; // wall was generated inside the snake
         break;
       }
     }
+    */
   }
 
   walls.emplace_back(newWallPosition);

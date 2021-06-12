@@ -11,8 +11,11 @@ void Game::draw() {
   window.draw(food.getApple());
 
   // draw snake
+  snake.draw(window);
+  /*
   for(auto &s : snake)
     window.draw(s.getShape());
+  */
 
   window.display();
 }

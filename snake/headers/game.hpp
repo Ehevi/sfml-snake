@@ -9,12 +9,15 @@
 #include "food.hpp"
 #include "utils.hpp"
 #include "wall.hpp"
+#include "snake.hpp"
 
-#define head snake[0]
-#define snakeInitialPosition {Vector2f(100, 100), Vector2f(80, 100), Vector2f(60, 100)}
+// #define head snake[0]
+// #define snakeInitialPosition {Vector2f(100, 100), Vector2f(80, 100), Vector2f(60, 100)}
 
 using namespace sf;
 using namespace std;
+
+// class Snake;
 
 class Game {
 private:
@@ -25,17 +28,16 @@ private:
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
 
-    vector<SnakeSection> snake;
-
-    int snakeDirection;
+    // int snakeDirection;
     deque<int> directionQueue; // queue for direction key presses
     int speed;
     int initialSpeed;
     int sectionsToAdd; // how many sections to add to the snake
 
     Food food;
-
+    Snake snake;
     vector<Wall> walls;
+    //vector<SnakeSection> snake;
 
     Time timeSinceLastMove;
 
@@ -72,7 +74,7 @@ public:
 
     void draw();
 
-    void addSnakeSection();
+    // void addSnakeSection();
 
     void moveFood();
 

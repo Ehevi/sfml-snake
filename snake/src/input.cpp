@@ -10,7 +10,6 @@ void Game::handleInput() {
             case Event::KeyPressed:
                 switch (event.key.code) {
                     case Keyboard::Escape:
-                        // prevGameState = currentGameState;
                         currentGameState = GameState::MENU;
                         handleMenu();
                         return;

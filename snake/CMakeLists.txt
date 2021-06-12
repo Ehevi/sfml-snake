@@ -12,7 +12,7 @@ set(SRCS
     src/menu.cpp
     src/utils.cpp
     src/wall.cpp
-#   src/snake.cpp
+    src/snake.cpp
 )
 
 add_executable("${PROJECT_NAME}" ${SRCS})

@@ -1,31 +1,30 @@
 #include "../headers/game.hpp"
 
 void Game::update() {
-    // update snake positions
-    Vector2f thisSectionPosition = head.getPosition();
-    Vector2f lastSectionPosition = thisSectionPosition;
-
     // does the snake need to change direction? (anything in the input queue?)
     if (!directionQueue.empty()) {
         // make sure we don't reverse direction
-        switch (snakeDirection) {
+        switch (snake.getDirection()) {
             case Direction::UP:
                 if (directionQueue.front() != Direction::DOWN)
-                    snakeDirection = directionQueue.front();
+                    snake.setDirection(directionQueue.front()); // = directionQueue.front();
                 break;
             case Direction::DOWN:
                 if (directionQueue.front() != Direction::UP)
-                    snakeDirection = directionQueue.front();
+                    snake.setDirection(directionQueue.front());
+                    //snakeDirection = directionQueue.front();
                 break;
             case Direction::RIGHT:
                 if (directionQueue.front() != Direction::LEFT)
-                    snakeDirection = directionQueue.front();
+                    snake.setDirection(directionQueue.front());
+                    //snakeDirection = directionQueue.front();
                 break;
             case Direction::LEFT:
                 if (directionQueue.front() != Direction::RIGHT)
-                    snakeDirection = directionQueue.front();
+                    snake.setDirection(directionQueue.front());
+                    //snakeDirection = directionQueue.front();
                 break;
-              default:
+            default:
                 break;
         }
         
@@ -35,23 +34,26 @@ void Game::update() {
 
     // do we need to grow the snake
     if (sectionsToAdd) {
-        addSnakeSection();
+        snake.addSection();
+        // addSnakeSection();
         sectionsToAdd--;
     }
 
+    snake.update();
+/*
     // update the head position
-    switch (snakeDirection) {
+    switch (snake.getDirection()) {
         case Direction::UP:
-            head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - BLOCK));
+            snake.head().setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - BLOCK));
             break;
         case Direction::DOWN:
-            head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + BLOCK));
+            snake.head().setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + BLOCK));
             break;
         case Direction::RIGHT:
-            head.setPosition(Vector2f(thisSectionPosition.x + BLOCK, thisSectionPosition.y));
+            snake.head().setPosition(Vector2f(thisSectionPosition.x + BLOCK, thisSectionPosition.y));
             break;
         case Direction::LEFT:
-            head.setPosition(Vector2f(thisSectionPosition.x - BLOCK, thisSectionPosition.y));
+            snake.head().setPosition(Vector2f(thisSectionPosition.x - BLOCK, thisSectionPosition.y));
             break;
         default:
             break;
@@ -67,9 +69,12 @@ void Game::update() {
     // run snake section update function
     for (auto &s : snake)
         s.update();
+    
+    */
 
     // Collision detection - Food
-    if (head.getShape().getGlobalBounds().intersects(food.getAppleSpace().getGlobalBounds())) {
+    if (snake.ate(food.getAppleSpace().getGlobalBounds())) {
+    // if (head.getShape().getGlobalBounds().intersects(food.getAppleSpace().getGlobalBounds())) {
     // We hit the food, add more sections to the snake, increase speed and move the food
     // TODO - increment score, foods eaten, add snake sections and check if its time for the next level
 
@@ -80,14 +85,20 @@ void Game::update() {
     }
 
     // snake body detection
+    if (snake.ateSelf())
+        currentGameState = GameState::GAMEOVER;
+    /*
     for (size_t s = 1; s <snake.size(); s++)
         if (head.getShape().getGlobalBounds().intersects(snake[s].getShape().getGlobalBounds()))
             // snake ate itself: gameover
             currentGameState = GameState::GAMEOVER;
+    
+    */
 
     // walls detection
     for (auto &w : walls)
-        if (head.getShape().getGlobalBounds().intersects(w.getShape().getGlobalBounds()))
+        if(snake.ate(w.getShape().getGlobalBounds()))
+        // if (head.getShape().getGlobalBounds().intersects(w.getShape().getGlobalBounds()))
             currentGameState = GameState::GAMEOVER;
     
     // reset the last move timer
