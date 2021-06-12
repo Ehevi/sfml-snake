@@ -11,13 +11,8 @@
 #include "wall.hpp"
 #include "snake.hpp"
 
-// #define head snake[0]
-// #define snakeInitialPosition {Vector2f(100, 100), Vector2f(80, 100), Vector2f(60, 100)}
-
 using namespace sf;
 using namespace std;
-
-// class Snake;
 
 class Game {
 private:
@@ -28,7 +23,6 @@ private:
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
 
-    // int snakeDirection;
     deque<int> directionQueue; // queue for direction key presses
     int speed;
     int initialSpeed;
@@ -37,7 +31,6 @@ private:
     Food food;
     Snake snake;
     vector<Wall> walls;
-    //vector<SnakeSection> snake;
 
     Time timeSinceLastMove;
 
@@ -59,7 +52,6 @@ private:
     RectangleShape accelerationCheckBox;
     RectangleShape wallsAroundCheckBox;
     RectangleShape wallGenerationCheckBox;
-
     // Menu end
 
 public:
@@ -73,8 +65,6 @@ public:
     void update();
 
     void draw();
-
-    // void addSnakeSection();
 
     void moveFood();
 

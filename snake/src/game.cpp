@@ -1,7 +1,6 @@
 #include "../headers/game.hpp"
 #include "../headers/wall.hpp"
 #include "../headers/utils.hpp"
-#include <iostream>
 
 const sf::Time Game::TimePerFrame = seconds(1.f/60.f);
 
@@ -22,46 +21,33 @@ Game::Game() {
 }
 
 void Game::startGame() {
+  srand(time(nullptr)); // for food and walls generation
+  
   speed = initialSpeed;
-  // snakeDirection = Direction::RIGHT;
   timeSinceLastMove = Time::Zero;
   prevGameState = currentGameState;
   sectionsToAdd = 0;
 
   snake.newSnake();
-  // snake.clear();
   walls.clear();
   directionQueue.clear();
 
-  /*
-  for (auto &s : snakeInitialPosition)
-    snake.emplace_back(s);
-  */
   if (wallsAround) drawWallsAround();
 
   run();
   moveFood();
 }
 
-/*
-void Game::addSnakeSection() {
-  Vector2f newSectionPosition = snake[snake.size() - 1].getPosition();
-  snake.emplace_back(newSectionPosition);
-}
-*/
-
 void Game::moveFood() {
-  srand(time(nullptr));
   // find a location to place food
   // must not be inside the snake or wall
 
   // divide the field into sections the size of food -- exclude snake and walls
   Vector2f foodResolution = Vector2f(resolution.x / BLOCK - 2, resolution.y / BLOCK - 2);
   Vector2f newFoodLocation;
-  bool badLocation = false;
-  // srand(time(nullptr));
-  // Loop until we find a valid location
-  do {
+  bool badLocation = true;
+
+  while (badLocation) {
     badLocation = false;
     
     // generate a random location
@@ -75,34 +61,25 @@ void Game::moveFood() {
       }
     }
 
-    if(snake.intersects(Rect<float>(newFoodLocation.x, newFoodLocation.y, BLOCK, BLOCK))) {
-      badLocation = true;
+    if (snake.intersects(Rect<float>(newFoodLocation.x, newFoodLocation.y, BLOCK, BLOCK))) {
+      badLocation = true; // food was generated inside the snake
       break;
     }
-    
-    /*
-    for (auto &s : snake) {
-      if (s.getShape().getGlobalBounds().intersects(Rect<float>(newFoodLocation.x, newFoodLocation.y, BLOCK, BLOCK))) {
-        badLocation = true; // food was generated inside the snake
-        break;
-      }
-    }
-    */
 
-  } while (badLocation);
+  }
   food.setPosition(newFoodLocation);
 }
 
 void Game::drawWallsAround() {
   walls.clear();
   Vector2f wall;
-  for(float x = 0; x < SCREEN_WIDTH; x += BLOCK) {
+  for (float x = 0; x < SCREEN_WIDTH; x += BLOCK) {
     wall = Vector2f(x, 0);
     walls.emplace_back(wall);
     wall = Vector2f(x, SCREEN_HEIGHT - BLOCK);
     walls.emplace_back(wall);
 
-    for(float y = 0; y < SCREEN_HEIGHT; y += BLOCK) {
+    for (float y = 0; y < SCREEN_HEIGHT; y += BLOCK) {
       wall = Vector2f(SCREEN_WIDTH - BLOCK, y);
       walls.emplace_back(wall);
       wall = Vector2f(0, y);
@@ -112,7 +89,6 @@ void Game::drawWallsAround() {
 }
 
 void Game::generateRandomWall() {
-  //srand(time(nullptr));
   Vector2f newWall;
 
   Vector2f wallResolution = Vector2f(resolution.x / BLOCK - 2, resolution.y / BLOCK - 2);
@@ -128,23 +104,15 @@ void Game::generateRandomWall() {
 
     for (auto &w : walls) {
       if (w.getShape().getGlobalBounds().intersects(Rect<float>(newWallPosition.x, newWallPosition.y, BLOCK, BLOCK))) {
-        badPosition = true; // we want a new wall
+        badPosition = true; // we already have a wall at the generated position
         break;
       }
     }
 
     if(snake.intersects(Rect<float>(newWallPosition.x, newWallPosition.y, BLOCK, BLOCK))) {
-      badPosition = true;
+      badPosition = true; // wall was generated inside the snake
       break;
     }
-    /*
-    for (auto &s : snake) {
-      if (s.getShape().getGlobalBounds().intersects(Rect<float>(newWallPosition.x, newWallPosition.y, BLOCK, BLOCK))) {
-        badPosition = true; // wall was generated inside the snake
-        break;
-      }
-    }
-    */
   }
 
   walls.emplace_back(newWallPosition);

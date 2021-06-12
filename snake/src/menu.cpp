@@ -124,8 +124,8 @@ void Game::displaySettings() {
     centerHorizontally(_Slow, _Fast, _Ultrafast, 205);
     
     initCheckBox(accelerationCheckBox, 300);
-    initCheckBox(wallsAroundCheckBox, 350);
-    initCheckBox(wallGenerationCheckBox, 450);
+    initCheckBox(wallsAroundCheckBox, 380);
+    initCheckBox(wallGenerationCheckBox, 460);
     
     Event event;
 

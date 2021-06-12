@@ -1,18 +1,6 @@
 #include "../headers/snake.hpp"
 #include "../headers/game.hpp"
 
-/*
-Snake::Snake() {
-    direction = Game::Direction::RIGHT;
-}
-*/
-
-/*
-SnakeSection Snake::head() {
-    return sections[0];
-}
-*/
-
 void Snake::addSection() {
     Vector2f newSectionPosition = sections[sections.size() - 1].getPosition();
     sections.emplace_back(newSectionPosition);
@@ -63,7 +51,7 @@ void Snake::update() {
             break;
     }
 
-    //update the snake tail positions
+    // update tail positions
     for (size_t s = 1; s < sections.size(); s++) {
         thisSectionPosition = sections[s].getPosition();
         sections[s].setPosition(lastSectionPosition);
@@ -79,8 +67,7 @@ bool Snake::ateSelf() {
     for (size_t s = 1; s <sections.size(); s++)
         if (head.getShape().getGlobalBounds().intersects(sections[s].getShape().getGlobalBounds()))
             return true;
-            // snake ate itself: gameover
-            // currentGameState = GameState::GAMEOVER;
+
     return false;
 }
 

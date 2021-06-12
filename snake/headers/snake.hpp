@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "snakesection.hpp"
-// #include "game.hpp"
 
 #define snakeInitialPosition {Vector2f(100, 100), Vector2f(80, 100), Vector2f(60, 100)}
 #define head sections[0]
@@ -20,20 +19,17 @@ private:
 public:
     Snake() {};
     
-    // SnakeSection head();
     int getDirection();
     void setDirection(int direction);
-    void addSection();
+    
     void newSnake();
+    void addSection();
+
     bool intersects(const Rect<float> &rectangle);
-    bool ateSelf();
     bool ate(const Rect<float> &rectangle);
-    // bool ateApple(const Rect<float> &rectangle);
-    // bool eats(const Rect<float> &rectangle);
-    // bool intersects(FloatRect<float>(float x, float y, float a, float b));
+    bool ateSelf();
 
     void update();
-    //bool eats(const Rect<float> &rectangle);
     void draw(RenderWindow &window);
 };
 
