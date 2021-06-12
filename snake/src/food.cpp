@@ -1,8 +1,9 @@
 #include "../headers/food.hpp"
+#include "../headers/utils.hpp"
 
 Food::Food() {
   Vector2f startingPosition(400, 300);
-  appleSpace.setSize(Vector2f(20,20));
+  appleSpace.setSize(Vector2f(BLOCK, BLOCK));
   appleSpace.setPosition(startingPosition);
   apple.setRadius(10);
   apple.setPosition(startingPosition);

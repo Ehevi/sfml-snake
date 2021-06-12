@@ -42,16 +42,16 @@ void Game::update() {
     // update the head position
     switch (snakeDirection) {
             case Direction::UP:
-                head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - 20));
+                head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - BLOCK));
                 break;
             case Direction::DOWN:
-                head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + 20));
+                head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + BLOCK));
                 break;
             case Direction::RIGHT:
-                head.setPosition(Vector2f(thisSectionPosition.x + 20, thisSectionPosition.y));
+                head.setPosition(Vector2f(thisSectionPosition.x + BLOCK, thisSectionPosition.y));
                 break;
             case Direction::LEFT:
-                head.setPosition(Vector2f(thisSectionPosition.x - 20, thisSectionPosition.y));
+                head.setPosition(Vector2f(thisSectionPosition.x - BLOCK, thisSectionPosition.y));
                 break;
             default:
                 break;

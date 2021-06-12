@@ -8,6 +8,7 @@
 #include "snakesection.hpp"
 #include "food.hpp"
 #include "utils.hpp"
+#include "wall.hpp"
 
 #define head snake[0]
 #define snakeInitialPosition {Vector2f(100, 100), Vector2f(80, 100), Vector2f(60, 100)}
@@ -33,6 +34,8 @@ private:
     int sectionsToAdd; // how many sections to add to the snake
 
     Food food;
+
+    vector<Wall> walls;
 
     Time timeSinceLastMove;
 
@@ -73,6 +76,9 @@ public:
     void addSnakeSection();
 
     void moveFood();
+
+    void drawWallsAround();
+    void generateRandomWall();
 
     void startGame();
     void handleMenu();

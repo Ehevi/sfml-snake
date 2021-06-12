@@ -1,7 +1,8 @@
 #include "../headers/snakesection.hpp"
+#include "../headers/utils.hpp"
 
 SnakeSection::SnakeSection(Vector2f startPosition) {
-    section.setSize(Vector2f(20, 20));
+    section.setSize(Vector2f(BLOCK, BLOCK));
     section.setFillColor(Color::Green);
     section.setPosition(startPosition);
     position = startPosition;

@@ -6,6 +6,8 @@
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
 
+#define BLOCK 20
+
 #define MENU_STRINGS_N0 3
 #define SETTINGS_STRINGS_NO 9
 #define _Settings settingsStrings[0]
@@ -17,7 +19,7 @@
 #define _Slow settingsStrings[6]
 #define _Fast settingsStrings[7]
 #define _Ultrafast settingsStrings[8]
-#define _CheckBoxSize Vector2f(20,20)
+#define _CheckBoxSize Vector2f(BLOCK, BLOCK)
 
 #define SPEED_SLOW 2
 #define SPEED_FAST 7

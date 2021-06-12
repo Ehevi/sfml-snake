@@ -1,4 +1,6 @@
 #include "../headers/game.hpp"
+#include "../headers/wall.hpp"
+#include "../headers/utils.hpp"
 #include <iostream>
 
 const sf::Time Game::TimePerFrame = seconds(1.f/60.f);
@@ -27,6 +29,7 @@ void Game::startGame() {
   sectionsToAdd = 0;
   directionQueue.clear();
 
+  if (wallsAround) drawWallsAround();
   newSnake();
   run();
   moveFood();
@@ -51,7 +54,7 @@ void Game::moveFood() {
   // must not be inside the snake or wall
 
   // divide the field into sections the size of food -- exclude snake and walls
-  Vector2f foodResolution = Vector2f(resolution.x / 20 - 2, resolution.y / 20 - 2);
+  Vector2f foodResolution = Vector2f(resolution.x / BLOCK - 2, resolution.y / BLOCK - 2);
   Vector2f newFoodLocation;
   bool badLocation = false;
   // srand(time(nullptr));
@@ -60,20 +63,38 @@ void Game::moveFood() {
     badLocation = false;
     
     // generate a random location
-    newFoodLocation.x = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)foodResolution.x)) * 20;
-    newFoodLocation.y = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)foodResolution.y)) * 20;
+    newFoodLocation.x = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)foodResolution.x)) * BLOCK;
+    newFoodLocation.y = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)foodResolution.y)) * BLOCK;
 
     // TODO: check whether the food was not generated inside the wall
 
     // check if it is inside the snake
     for(auto &s : snake) {
-      if(s.getShape().getGlobalBounds().intersects(Rect<float>(newFoodLocation.x, newFoodLocation.y, 20, 20))) {
+      if(s.getShape().getGlobalBounds().intersects(Rect<float>(newFoodLocation.x, newFoodLocation.y, BLOCK, BLOCK))) {
         badLocation = true; // food was generated inside the snake
         break;
       }
     }
   } while (badLocation);
   food.setPosition(newFoodLocation);
+}
+
+void Game::drawWallsAround() {
+  walls.clear();
+  Vector2f wall;
+  for(float x = 0; x < SCREEN_WIDTH; x += BLOCK) {
+    wall = Vector2f(x, 0);
+    walls.emplace_back(wall);
+    wall = Vector2f(x, SCREEN_HEIGHT - BLOCK);
+    walls.emplace_back(wall);
+
+    for(float y = 0; y < SCREEN_HEIGHT; y += BLOCK) {
+      wall = Vector2f(SCREEN_WIDTH - BLOCK, y);
+      walls.emplace_back(wall);
+      wall = Vector2f(0, y);
+      walls.emplace_back(wall);
+    }
+  }
 }
 
 void Game::handlePause() {

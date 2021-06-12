@@ -11,6 +11,7 @@ set(SRCS
     src/food.cpp
     src/menu.cpp
     src/utils.cpp
+    src/wall.cpp
 #   src/snake.cpp
 )
 
