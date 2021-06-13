@@ -11,6 +11,7 @@ obligatory project for my C++ course at AGH UST
 #### Make sure you will be able to compile the project
 `g++` compiler, `cmake` etc. are needed. Most likely you already have them installed, but if you feel like it, run these commands just in case :see_no_evil:
 ```shell
+sudo snap install cmake --classic
 sudo apt-get update
 sudo apt-get install build-essential g++ cmake libjpeg-dev libfreetype6-dev libglew-dev libxrandr-dev libopenal-dev libsndfile-dev libgl1-mesa-dev libxcb-image0-dev libudev-dev
 ```
