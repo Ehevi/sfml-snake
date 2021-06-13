@@ -20,13 +20,11 @@ private:
     int prevGameState; // the last state the game was in when pausing
     
     Vector2f resolution;
-    // RenderWindow window;
-    // const unsigned int FPS = 60;
-    // static const Time TimePerFrame;
 
     deque<int> directionQueue; // queue for direction key presses
-    int speed;
+
     int initialSpeed;
+    int speed;
     int sectionsToAdd; // how many sections to add to the snake
 
     Food food;
@@ -35,39 +33,17 @@ private:
 
     Time timeSinceLastMove;
 
-    // Menu menu;
-
     Text score;
     Text gameTime;
     Text pauseText;
     Text gameOverText;
-    
-    // Menu
-    /*
-    Font font;
-
-    Text title;
-    Text menuStrings[MENU_STRINGS_N0];
-    Text settingsStrings[SETTINGS_STRINGS_NO];
-    */
-    // Text score;
-    // Text gameTime;
-    // Text pauseText;
-    // Text gameOverText;
 
     bool acceleration;
     bool wallsAround;
     bool wallGeneration;
 
-    /*
-    RectangleShape accelerationCheckBox;
-    RectangleShape wallsAroundCheckBox;
-    RectangleShape wallGenerationCheckBox;
-    */
-    // Menu end
-
 public:
-    Game() {}; //(Vector2f gameResolution);//, RenderWindow &renderWindow); // {};//int initialSpeed, bool acceleration, bool wallsAround, bool wallGeneration);
+    Game() {};
 
     enum Direction {UP, DOWN, RIGHT, LEFT};
     enum GameState {RUNNING, PAUSED, GAMEOVER, EXIT};
@@ -78,25 +54,16 @@ public:
 
     void draw(RenderWindow &window);
 
-    void moveFood(); //Vector2f foodResolution);
+    void moveFood();
 
-    void drawWallsAround();
+    void buildWallsAround();
     void generateRandomWall();
 
     void newGame(RenderWindow &window, Vector2f gameResolution, int newInitialSpeed, bool accelerationWanted, bool wallsAround, bool wallGenerationWanted);
-    // void handleMenu();
 
     void handlePause();
 
     void run(RenderWindow &window); // main loop
-
-    Food getFood();
-    Snake getSnake();
-    vector<Wall> getWalls();
-    // menu
-    // void displayMenu();
-    // void displaySettings();
-    // end menu
 
 };
 

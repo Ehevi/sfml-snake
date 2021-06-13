@@ -8,16 +8,16 @@ using namespace sf;
 
 class Menu {
 private:
-    Game game; //
+    Game game;
     
-    int menuState; //
+    int menuState;
 
-    Vector2f resolution; //
-    RenderWindow window; //
-    const unsigned int FPS = 60; //
-    static const Time TimePerFrame; //
+    Vector2f resolution;
+    RenderWindow window;
+    const unsigned int FPS = 60;
+    static const Time TimePerFrame;
 
-    Font font; //
+    Font font;
 
     Text title;
     Text menuStrings[MENU_STRINGS_N0];
@@ -41,16 +41,9 @@ public:
 
     enum MenuState {MAIN, SETTINGS, PLAYING, EXIT};
     
-    // void start(); // init?
-    void handleState();//int gameState, RenderWindow window);
+    void handleState();
     void displayMenu();
     void displaySettings();
-    // void draw();
-    // void newGame();
-    // explicit Wall(Vector2f Position);
-
-    // Vector2f getPosition();
-    // RectangleShape getShape();
 
 };
 

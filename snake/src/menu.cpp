@@ -18,8 +18,6 @@ Menu::Menu() {
     acceleration = true;
     wallsAround = false;
     wallGeneration = false;
-    // game = Game(resolution);
-    // handleGameState();
 }
 
 void Menu::handleState() {
@@ -33,9 +31,8 @@ void Menu::handleState() {
                 break;
             case MenuState::PLAYING:
                 game.newGame(window, resolution, initialSpeed, acceleration, wallsAround, wallGeneration);
-                menuState = MenuState::MAIN; // displaying main menu after the game ends
+                menuState = MenuState::MAIN; // display main menu after the game ends
                 break;
-                // return;
             case MenuState::EXIT:
                 window.close();
                 return;
