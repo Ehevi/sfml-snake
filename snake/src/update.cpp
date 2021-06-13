@@ -38,9 +38,7 @@ void Game::update() {
     snake.update();
 
     if (snake.ate(food.getAppleSpace().getGlobalBounds())) {
-    // We hit the food: add more sections to the snake, increase speed and move the food
-    // TODO - increment score, foods eaten, add snake sections and check if its time for the next level
-
+        score++;
         sectionsToAdd++;
         if (acceleration) speed++;
         if (wallGeneration) generateRandomWall();
@@ -54,6 +52,10 @@ void Game::update() {
     for (auto &w : walls)
         if (snake.ate(w.getShape().getGlobalBounds()))
             currentGameState = GameState::GAMEOVER;
+    
+    Time gameTime = gameClock.getElapsedTime();
+    scoreText.setString("Score: " + to_string(score));
+    gameTimeText.setString("Time: " + to_string((int)(gameTime.asSeconds() - totalPausedTime.asSeconds())));
     
     // reset the last move timer
     timeSinceLastMove = Time::Zero;

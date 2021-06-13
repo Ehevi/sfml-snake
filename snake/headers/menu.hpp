@@ -22,10 +22,6 @@ private:
     Text title;
     Text menuStrings[MENU_STRINGS_N0];
     Text settingsStrings[SETTINGS_STRINGS_NO];
-    Text score;
-    Text gameTime;
-    Text pauseText;
-    Text gameOverText;
 
     int initialSpeed;
     bool acceleration;

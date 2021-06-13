@@ -12,7 +12,23 @@ void Game::newGame(RenderWindow &window, Vector2f gameResolution, int newInitial
     wallsAround = newWallsAround;
     wallGeneration = newWallGeneration;
 
+    score = 0;
+
+    loadFont(font);
+    scoreText.setCharacterSize(SMALL_FONT_SIZE);
+    scoreText.setString("Score: ");
+    scoreText.setFont(font);
+    scoreText.setPosition(30, 30);
+    gameTimeText.setCharacterSize(SMALL_FONT_SIZE);
+    gameTimeText.setString("Time: ");
+    gameTimeText.setFont(font);
+    gameTimeText.setPosition(30, SCREEN_HEIGHT - 60);
+    
+    gameClock.restart();
     timeSinceLastMove = Time::Zero;
+    totalPausedTime = Time::Zero;
+    pausedSince = Time::Zero;
+
     currentGameState = GameState::RUNNING;
     prevGameState = currentGameState;
     
@@ -99,10 +115,12 @@ void Game::generateRandomWall() {
 void Game::handlePause() {
     switch (currentGameState) {
         case GameState::RUNNING:
+            pausedSince = gameClock.getElapsedTime();
             prevGameState = currentGameState;
             currentGameState = GameState::PAUSED;
             break;
         case GameState::PAUSED:
+            totalPausedTime += gameClock.getElapsedTime() - pausedSince;
             currentGameState = prevGameState;
             break;
         default:
@@ -151,5 +169,7 @@ void Game::draw(RenderWindow &window) {
     // draw snake
     snake.draw(window);
 
+    window.draw(scoreText);
+    window.draw(gameTimeText);
     window.display();
 }

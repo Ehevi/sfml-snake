@@ -26,15 +26,21 @@ private:
     int initialSpeed;
     int speed;
     int sectionsToAdd; // how many sections to add to the snake
+    int score;
 
     Food food;
     Snake snake;
     vector<Wall> walls;
 
     Time timeSinceLastMove;
+    Time pausedSince;
+    Time totalPausedTime;
+    Clock gameClock;
 
-    Text score;
-    Text gameTime;
+    Font font;
+    
+    Text scoreText;
+    Text gameTimeText;
     Text pauseText;
     Text gameOverText;
 
