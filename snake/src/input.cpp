@@ -1,6 +1,6 @@
 #include "../headers/game.hpp"
 
-void Game::handleInput() {
+void Game::handleInput(RenderWindow &window) {
     Event event{};
     while(window.pollEvent(event)) {
         switch(event.type) {
@@ -10,8 +10,8 @@ void Game::handleInput() {
             case Event::KeyPressed:
                 switch (event.key.code) {
                     case Keyboard::Escape:
-                        currentGameState = GameState::MENU;
-                        handleMenu();
+                        currentGameState = GameState::EXIT;
+                        // handleMenu();
                         return;
                     case Keyboard::Up:
                         addDirection(Direction::UP);
@@ -28,14 +28,14 @@ void Game::handleInput() {
                     case Keyboard::Space:
                         handlePause();
                         if (currentGameState == GameState::GAMEOVER) {
-                            currentGameState = GameState::PLAYING;
-                            startGame();
+                            currentGameState = GameState::RUNNING;
+                            newGame(window, resolution, initialSpeed, acceleration, wallsAround, wallGeneration);
                         }
                         break;
                     default:
                         if (currentGameState == GameState::GAMEOVER) {
-                            currentGameState = GameState::PLAYING;
-                            startGame();
+                            currentGameState = GameState::RUNNING;
+                            newGame(window, resolution, initialSpeed, acceleration, wallsAround, wallGeneration);
                         }
                         break;
                 }

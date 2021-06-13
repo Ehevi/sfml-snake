@@ -2,43 +2,61 @@
 #include "../headers/wall.hpp"
 #include "../headers/utils.hpp"
 
-const sf::Time Game::TimePerFrame = seconds(1.f/60.f);
+// const sf::Time Game::TimePerFrame = seconds(1.f/60.f);
 
+/*
+
+Game::Game(Vector2f gameResolution) {//, RenderWindow &renderWindow) {
+  resolution = gameResolution;
+  // window = renderWindow;
+}
+*/
+
+/*
 Game::Game() {
-  loadFont(font);
+  // loadFont(font);
   
-  resolution = Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-  window.create(VideoMode(resolution.x, resolution.y), "Snake", Style::Default);
-  window.setFramerateLimit(FPS);
+  // resolution = Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+  // window.create(VideoMode(resolution.x, resolution.y), "Snake", Style::Default);
+  // window.setFramerateLimit(FPS);
 
   // default settings
-  initialSpeed = SPEED_SLOW;
-  acceleration = true;
-  wallGeneration = false;
-  wallsAround = false;
+  // initialSpeed = SPEED_SLOW;
+  // acceleration = true;
+  // wallGeneration = false;
+  // wallsAround = false;
 
-  currentGameState = MENU;
+  // currentGameState = MENU;
 }
+*/
 
-void Game::startGame() {
+void Game::newGame(RenderWindow &window, Vector2f gameResolution, int newInitialSpeed, bool accelerationWanted, bool wallsAroundWanted, bool wallGenerationWanted) {
+
   srand(time(nullptr)); // for food and walls generation
   
-  speed = initialSpeed;
+  resolution = gameResolution;
+  initialSpeed = newInitialSpeed;
+  speed = newInitialSpeed;
   timeSinceLastMove = Time::Zero;
+  currentGameState = GameState::RUNNING;
   prevGameState = currentGameState;
   sectionsToAdd = 0;
 
+  acceleration = accelerationWanted;
+  wallsAround = wallsAroundWanted;
+  wallGeneration = wallGenerationWanted;
+  
   snake.newSnake();
   walls.clear();
   directionQueue.clear();
 
   if (wallsAround) drawWallsAround();
 
-  run();
-  moveFood();
+  run(window);
+  moveFood(); //Vector2f(resolution.x / BLOCK - 2, resolution.y / BLOCK - 2));
 }
 
-void Game::moveFood() {
+void Game::moveFood() {//Vector2f foodResolution) {
   // find a location to place food
   // must not be inside the snake or wall
 
@@ -117,13 +135,15 @@ void Game::generateRandomWall() {
 
   walls.emplace_back(newWallPosition);
   
+  /*
   for (auto &w : walls)
     window.draw(w.getShape());
+  */
 }
 
 void Game::handlePause() {
   switch(currentGameState) {
-    case GameState::PLAYING:
+    case GameState::RUNNING:
       prevGameState = currentGameState;
       currentGameState = GameState::PAUSED;
       break;
@@ -135,14 +155,14 @@ void Game::handlePause() {
   }
 }
 
-void Game::run() {
+void Game::run(RenderWindow &window) {
   Clock clock;
 
   while (true) {
     Time dt = clock.restart();
     timeSinceLastMove += dt;
 
-    handleInput();
+    handleInput(window);
 
     switch (currentGameState) {
       case GameState::PAUSED:
@@ -150,16 +170,27 @@ void Game::run() {
       // otherwise the loop will be iterating as fast as it possibly can
         break;
       case GameState::GAMEOVER:
-        draw();
+        draw(window);
         sleep(microseconds(2));
         break;
-      case GameState::MENU:
       case GameState::EXIT:
         return;
       default:
         if (timeSinceLastMove.asSeconds() >= seconds(1.f / float(speed)).asSeconds())
           update();
-        draw();
+        draw(window);
     }
   }
+}
+
+Food Game::getFood() {
+  return food;
+}
+
+Snake Game::getSnake() {
+  return snake;
+}
+
+vector<Wall> Game::getWalls() {
+  return walls;
 }

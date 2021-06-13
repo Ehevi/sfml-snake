@@ -1,31 +1,52 @@
 #include "../headers/game.hpp"
 #include "../headers/utils.hpp"
+#include "../headers/menu.hpp"
 #include <set>
 
-void Game::handleMenu() {
+const sf::Time Menu::TimePerFrame = seconds(1.f/60.f);
+
+Menu::Menu() {
+    loadFont(font);
+    resolution = Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+    window.create(VideoMode(resolution.x, resolution.y), "Snake", Style::Default);
+    window.setFramerateLimit(FPS);
+
+    menuState = MenuState::MAIN;
+    
+    // default settings
+    initialSpeed = SPEED_SLOW;
+    acceleration = true;
+    wallsAround = false;
+    wallGeneration = false;
+    // game = Game(resolution);
+    // handleGameState();
+}
+
+void Menu::handleState() {
     while (true) {
-        switch (currentGameState) {
-            case GameState::MENU:
+        switch (menuState) {
+            case MenuState::MAIN:
                 displayMenu();
                 break;
-            case GameState::SETTINGS:
+            case MenuState::SETTINGS:
                 displaySettings();
                 break;
-            case GameState::PLAYING:
-                startGame();
-                return;
-            case GameState::EXIT:
+            case MenuState::PLAYING:
+                game.newGame(window, resolution, initialSpeed, acceleration, wallsAround, wallGeneration);
+                menuState = MenuState::MAIN; // displaying main menu after the game ends
+                break;
+                // return;
+            case MenuState::EXIT:
                 window.close();
                 return;
             default:
-                // PAUSED and GAMEOVER states are handled when the game is running
                 break;
         }
         sleep(microseconds(2));
     }
 }
 
-void Game::displayMenu() {
+void Menu::displayMenu() {
     title.setFont(font);
     title.setString("SFML Snake");
     title.setCharacterSize(LARGE_FONT_SIZE);
@@ -45,18 +66,18 @@ void Game::displayMenu() {
 
     Event event;
     
-    while (currentGameState == Game::MENU) {
+    while (menuState == MenuState::MAIN) {
         Vector2f mouse(Mouse::getPosition(window));
         
         while (window.pollEvent(event)) {
             switch (event.type) {
                 case Event::Closed:
-                    currentGameState = GameState::EXIT;
+                    menuState = MenuState::EXIT;
                     return;
                 case Event::KeyPressed:
                     switch (event.key.code) {
                         case Keyboard::Escape:
-                            currentGameState = GameState::EXIT;
+                            menuState = MenuState::EXIT;
                             return;
                         case Keyboard::Up:
                             break;
@@ -71,13 +92,13 @@ void Game::displayMenu() {
                 case Event::MouseButtonReleased:
                     if (event.mouseButton.button == Mouse::Left) {
                         if (menuStrings[0].getGlobalBounds().contains(mouse))
-                            currentGameState = GameState::PLAYING;
+                            menuState = MenuState::PLAYING;
                 
                         if (menuStrings[1].getGlobalBounds().contains(mouse))
-                            currentGameState = GameState::SETTINGS;
+                            menuState = MenuState::SETTINGS;
                 
                         if (menuStrings[2].getGlobalBounds().contains(mouse)) 
-                            currentGameState = GameState::EXIT;
+                            menuState = MenuState::EXIT;
                     }
                     break;
                 default:
@@ -98,7 +119,7 @@ void Game::displayMenu() {
     }
 }
 
-void Game::displaySettings() {
+void Menu::displaySettings() {
     _Settings.setString("Settings");
     _InitialSpeed.setString("Initial speed");
     _Acceleration.setString("Acceleration");
@@ -129,7 +150,7 @@ void Game::displaySettings() {
     
     Event event;
 
-    while (currentGameState == Game::SETTINGS) {
+    while (menuState == MenuState::SETTINGS) {
         Vector2f mouse(Mouse::getPosition(window));
       
         while (window.pollEvent(event)) {
@@ -137,7 +158,7 @@ void Game::displaySettings() {
                 case Event::MouseButtonReleased:
                     if (event.mouseButton.button == Mouse::Left) {
                         if (_Back.getGlobalBounds().contains(mouse))
-                            currentGameState = GameState::MENU;
+                            menuState = MenuState::MAIN;
                         
                         if (_Slow.getGlobalBounds().contains(mouse))
                             initialSpeed = SPEED_SLOW;
@@ -161,10 +182,10 @@ void Game::displaySettings() {
                     break;
                 case Event::KeyPressed:
                     if (event.key.code == Keyboard::Escape)
-                        currentGameState = GameState::MENU;
+                        menuState = MenuState::MAIN;
                     break;
                 case Event::Closed:
-                    currentGameState = GameState::EXIT;
+                    menuState = MenuState::EXIT;
                     return;
                 default:
                     break;

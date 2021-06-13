@@ -1,7 +1,9 @@
-#include "../headers/game.hpp"
+#include "../headers/menu.hpp"
 
 int main() {
-  Game game;
-  game.handleMenu();
+  Menu menu;
+  menu.handleState();
+  // Game game;
+  // game.handleMenu();
   return 0;
 }
