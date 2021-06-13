@@ -18,14 +18,13 @@ class Game {
 private:
     int currentGameState;
     int prevGameState; // the last state the game was in when pausing
+    
     Vector2f resolution;
-    RenderWindow window;
-    const unsigned int FPS = 60;
-    static const Time TimePerFrame;
 
     deque<int> directionQueue; // queue for direction key presses
-    int speed;
+
     int initialSpeed;
+    int speed;
     int sectionsToAdd; // how many sections to add to the snake
 
     Food food;
@@ -34,12 +33,6 @@ private:
 
     Time timeSinceLastMove;
 
-    // Menu
-    Font font;
-
-    Text title;
-    Text menuStrings[MENU_STRINGS_N0];
-    Text settingsStrings[SETTINGS_STRINGS_NO];
     Text score;
     Text gameTime;
     Text pauseText;
@@ -49,39 +42,28 @@ private:
     bool wallsAround;
     bool wallGeneration;
 
-    RectangleShape accelerationCheckBox;
-    RectangleShape wallsAroundCheckBox;
-    RectangleShape wallGenerationCheckBox;
-    // Menu end
-
 public:
-    Game();
+    Game() {};
 
     enum Direction {UP, DOWN, RIGHT, LEFT};
-    enum GameState {MENU, SETTINGS, PLAYING, PAUSED, GAMEOVER, EXIT};
+    enum GameState {RUNNING, PAUSED, GAMEOVER, EXIT};
 
-    void handleInput();
+    void handleInput(RenderWindow &window);
     void addDirection(int newDirection);
     void update();
 
-    void draw();
+    void draw(RenderWindow &window);
 
     void moveFood();
 
-    void drawWallsAround();
+    void buildWallsAround();
     void generateRandomWall();
 
-    void startGame();
-    void handleMenu();
+    void newGame(RenderWindow &window, Vector2f gameResolution, int newInitialSpeed, bool accelerationWanted, bool wallsAround, bool wallGenerationWanted);
 
     void handlePause();
 
-    void run(); // main loop
-
-    // menu
-    void displayMenu();
-    void displaySettings();
-    // end menu
+    void run(RenderWindow &window); // main loop
 
 };
 

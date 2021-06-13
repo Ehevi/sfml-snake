@@ -6,7 +6,6 @@ set(SRCS
     src/main.cpp
     src/snakesection.cpp
     src/input.cpp
-    src/draw.cpp
     src/update.cpp
     src/food.cpp
     src/menu.cpp
