@@ -29,6 +29,8 @@
 #define MEDIUM_FONT_SIZE 40
 #define SMALL_FONT_SIZE 25
 
+#define sleep sleep(microseconds(2))
+
 using namespace sf;
 
 const int mediumIndexes[] = {5, 6, 7, 8};

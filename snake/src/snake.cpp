@@ -36,16 +36,16 @@ void Snake::update() {
     // update the head position
     switch (direction) {
         case Game::Direction::UP:
-            head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - BLOCK));
+            head.setPosition(Vector2f(thisSectionPosition.x, (thisSectionPosition.y - BLOCK) > 0 ? thisSectionPosition.y - BLOCK : thisSectionPosition.y - BLOCK + SCREEN_HEIGHT));
             break;
         case Game::Direction::DOWN:
-            head.setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + BLOCK));
+            head.setPosition(Vector2f(thisSectionPosition.x, (thisSectionPosition.y + BLOCK) < SCREEN_HEIGHT ? thisSectionPosition.y + BLOCK : thisSectionPosition.y + BLOCK - SCREEN_HEIGHT));
             break;
         case Game::Direction::RIGHT:
-            head.setPosition(Vector2f(thisSectionPosition.x + BLOCK, thisSectionPosition.y));
+            head.setPosition(Vector2f((thisSectionPosition.x + BLOCK) < SCREEN_WIDTH ? thisSectionPosition.x + BLOCK : thisSectionPosition.x + BLOCK - SCREEN_WIDTH, thisSectionPosition.y));
             break;
         case Game::Direction::LEFT:
-            head.setPosition(Vector2f(thisSectionPosition.x - BLOCK, thisSectionPosition.y));
+            head.setPosition(Vector2f((thisSectionPosition.x - BLOCK) > 0 ? thisSectionPosition.x - BLOCK : thisSectionPosition.x - BLOCK + SCREEN_WIDTH, thisSectionPosition.y));
             break;
         default:
             break;

@@ -11,7 +11,6 @@ void Game::handleInput(RenderWindow &window) {
                 switch (event.key.code) {
                     case Keyboard::Escape:
                         currentGameState = GameState::EXIT;
-                        // handleMenu();
                         return;
                     case Keyboard::Up:
                         addDirection(Direction::UP);

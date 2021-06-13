@@ -39,7 +39,7 @@ void Menu::handleState() {
             default:
                 break;
         }
-        sleep(microseconds(2));
+        sleep;
     }
 }
 
@@ -225,7 +225,5 @@ void Menu::displaySettings() {
         window.draw(wallsAroundCheckBox);
       
         window.display();
-
-        sleep(microseconds(2));
     }
 }

@@ -121,12 +121,12 @@ void Game::run(RenderWindow &window) {
 
         switch (currentGameState) {
             case GameState::PAUSED:
-                sleep(microseconds(2)); // sleep so we don't peg the CPU
+                sleep; // sleep so we don't peg the CPU
                 // otherwise the loop will be iterating as fast as it possibly can
                 break;
             case GameState::GAMEOVER:
                 draw(window);
-                sleep(microseconds(2));
+                sleep;
                 break;
             case GameState::EXIT:
                 return;
