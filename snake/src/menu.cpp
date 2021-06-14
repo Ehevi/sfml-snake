@@ -3,12 +3,10 @@
 #include "../headers/menu.hpp"
 #include <set>
 
-const sf::Time Menu::TimePerFrame = seconds(1.f/60.f);
-
 Menu::Menu() {
     loadFont(font);
     resolution = Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-    window.create(VideoMode(resolution.x, resolution.y), "Snake", Style::Default);
+    window.create(VideoMode(resolution.x, resolution.y), WINDOW_NAME, Style::Default);
     window.setFramerateLimit(FPS);
 
     menuState = MenuState::MAIN;
@@ -45,19 +43,19 @@ void Menu::handleState() {
 
 void Menu::displayMenu() {
     title.setFont(font);
-    title.setString("SFML Snake");
+    title.setString(TITLE);
     title.setCharacterSize(LARGE_FONT_SIZE);
-    centerHorizontally(title, 150);
+    centerHorizontally(title, TITLE_Y);
     
-    menuStrings[0].setString("Start");
-    menuStrings[1].setString("Settings");
-    menuStrings[2].setString("Exit");
+    _Start.setString("Start");
+    _Settings.setString("Settings");
+    _Exit.setString("Exit");
 
     int i = 0;
     for (auto &ms : menuStrings) {
         ms.setFont(font);
         ms.setCharacterSize(MEDIUM_FONT_SIZE);
-        centerHorizontally(ms, 250 + 50 * i);
+        centerHorizontally(ms, MAIN_MARGIN_TOP + MAIN_SPACE_BETWEEN * i);
         i++;
     }
 
@@ -88,13 +86,13 @@ void Menu::displayMenu() {
                     break;
                 case Event::MouseButtonReleased:
                     if (event.mouseButton.button == Mouse::Left) {
-                        if (menuStrings[0].getGlobalBounds().contains(mouse))
+                        if (_Start.getGlobalBounds().contains(mouse))
                             menuState = MenuState::PLAYING;
                 
-                        if (menuStrings[1].getGlobalBounds().contains(mouse))
+                        if (_Settings.getGlobalBounds().contains(mouse))
                             menuState = MenuState::SETTINGS;
                 
-                        if (menuStrings[2].getGlobalBounds().contains(mouse)) 
+                        if (_Exit.getGlobalBounds().contains(mouse)) 
                             menuState = MenuState::EXIT;
                     }
                     break;
@@ -117,7 +115,7 @@ void Menu::displayMenu() {
 }
 
 void Menu::displaySettings() {
-    _Settings.setString("Settings");
+    _SettingsTitle.setString("Settings");
     _InitialSpeed.setString("Initial speed");
     _Acceleration.setString("Acceleration");
     _WallsAround.setString("Walls around");
@@ -133,17 +131,17 @@ void Menu::displaySettings() {
     for (size_t i = 0; i < SETTINGS_STRINGS_NO; i++) {
         settingsStrings[i].setFont(font);
         settingsStrings[i].setCharacterSize(mediumSet.find(i) != mediumSet.end()? MEDIUM_FONT_SIZE : SMALL_FONT_SIZE);
-        centerHorizontally(settingsStrings[i], 100 + 80 * i);
+        centerHorizontally(settingsStrings[i], SETTINGS_MARGIN_TOP + SETTINGS_SPACE_BETWEEN * i);
     }
 
-    _Settings.setCharacterSize(LARGE_FONT_SIZE);
-    centerHorizontally(_Settings, 50);
+    _SettingsTitle.setCharacterSize(LARGE_FONT_SIZE);
+    centerHorizontally(_SettingsTitle, SETTINGS_MARGIN_TOP / 2);
 
-    centerHorizontally(_Slow, _Fast, _Ultrafast, 205);
+    centerHorizontally(_Slow, _Fast, _Ultrafast, SPEED_OPTIONS_Y);
     
-    initCheckBox(accelerationCheckBox, 300);
-    initCheckBox(wallsAroundCheckBox, 380);
-    initCheckBox(wallGenerationCheckBox, 460);
+    initCheckBox(accelerationCheckBox, CHECKBOX_INITIAL_Y);
+    initCheckBox(wallsAroundCheckBox, CHECKBOX_INITIAL_Y + SETTINGS_SPACE_BETWEEN);
+    initCheckBox(wallGenerationCheckBox, CHECKBOX_INITIAL_Y + SETTINGS_SPACE_BETWEEN * 2);
     
     Event event;
 

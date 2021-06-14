@@ -3,14 +3,27 @@
 
 #include <SFML/Graphics.hpp>
 
+#define WINDOW_NAME "Snake"
+
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
+
+#define FramesPerSecond 60
 
 #define BLOCK 20
 
 #define MENU_STRINGS_N0 3
+#define TITLE "SFML Snake"
+#define _Start menuStrings[0]
+#define _Settings menuStrings[1]
+#define _Exit menuStrings[2]
+
+#define TITLE_Y 150
+#define MAIN_MARGIN_TOP 250
+#define MAIN_SPACE_BETWEEN 50
+
 #define SETTINGS_STRINGS_NO 9
-#define _Settings settingsStrings[0]
+#define _SettingsTitle settingsStrings[0]
 #define _InitialSpeed settingsStrings[1]
 #define _Acceleration settingsStrings[2]
 #define _WallsAround settingsStrings[3]
@@ -20,6 +33,21 @@
 #define _Fast settingsStrings[7]
 #define _Ultrafast settingsStrings[8]
 #define _CheckBoxSize Vector2f(BLOCK, BLOCK)
+
+#define SETTINGS_MARGIN_TOP 100
+#define SETTINGS_SPACE_BETWEEN 80
+
+#define SPEED_OPTIONS_Y 205
+#define CHECKBOX_INITIAL_Y 300
+
+#define MESSAGE_LINES_NO 2
+
+#define GAME_TEXT_MARGIN 30
+
+#define _Paused pauseText[0]
+#define _PressSpace pauseText[1]
+#define _GameOver gameOverText[0]
+#define _PressAny gameOverText[1]
 
 #define SPEED_SLOW 2
 #define SPEED_FAST 7

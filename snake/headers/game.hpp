@@ -41,8 +41,8 @@ private:
     
     Text scoreText;
     Text gameTimeText;
-    Text pauseText[2];
-    Text gameOverText[2];
+    Text pauseText[MESSAGE_LINES_NO];
+    Text gameOverText[MESSAGE_LINES_NO];
 
     bool acceleration;
     bool wallsAround;

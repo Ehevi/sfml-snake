@@ -8,32 +8,32 @@ Game::Game() {
     scoreText.setCharacterSize(SMALL_FONT_SIZE);
     scoreText.setString("Score: ");
     scoreText.setFont(font);
-    scoreText.setPosition(30, 30);
+    scoreText.setPosition(GAME_TEXT_MARGIN, GAME_TEXT_MARGIN);
     
     gameTimeText.setCharacterSize(SMALL_FONT_SIZE);
     gameTimeText.setString("Time: ");
     gameTimeText.setFont(font);
-    gameTimeText.setPosition(30, SCREEN_HEIGHT - 60);
+    gameTimeText.setPosition(GAME_TEXT_MARGIN, SCREEN_HEIGHT - 2 * GAME_TEXT_MARGIN);
     
-    pauseText[0].setCharacterSize(LARGE_FONT_SIZE);
-    pauseText[0].setString("Paused\n");
-    pauseText[0].setFont(font);
-    center(pauseText[0]);
+    _Paused.setCharacterSize(LARGE_FONT_SIZE);
+    _Paused.setString("Paused\n");
+    _Paused.setFont(font);
+    center(_Paused);
 
-    pauseText[1].setCharacterSize(SMALL_FONT_SIZE);
-    pauseText[1].setString("\nPress space to continue");
-    pauseText[1].setFont(font);
-    center(pauseText[1]);
+    _PressSpace.setCharacterSize(SMALL_FONT_SIZE);
+    _PressSpace.setString("\nPress space to continue");
+    _PressSpace.setFont(font);
+    center(_PressSpace);
 
-    gameOverText[0].setCharacterSize(LARGE_FONT_SIZE);
-    gameOverText[0].setString("Game Over!\n");
-    gameOverText[0].setFont(font);
-    center(gameOverText[0]);
+    _GameOver.setCharacterSize(LARGE_FONT_SIZE);
+    _GameOver.setString("Game Over!\n");
+    _GameOver.setFont(font);
+    center(_GameOver);
 
-    gameOverText[1].setCharacterSize(SMALL_FONT_SIZE);
-    gameOverText[1].setString("\nPress any key to continue");
-    gameOverText[1].setFont(font);
-    center(gameOverText[1]);
+    _PressAny.setCharacterSize(SMALL_FONT_SIZE);
+    _PressAny.setString("\nPress any key to continue");
+    _PressAny.setFont(font);
+    center(_PressAny);
 }
 
 void Game::newGame(RenderWindow &window, Vector2f gameResolution, int newInitialSpeed, bool newAcceleration, bool newWallsAround, bool newWallGeneration) {
@@ -70,7 +70,7 @@ void Game::newGame(RenderWindow &window, Vector2f gameResolution, int newInitial
 void Game::moveFood() {
     // find a location to place food
 
-    // divide the field into sections the size of food
+    // divide the field into sections the size of block
     Vector2f foodResolution = Vector2f(resolution.x / BLOCK - 2, resolution.y / BLOCK - 2);
     Vector2f newFoodPosition;
     bool badPosition = true;
@@ -161,13 +161,10 @@ void Game::run(RenderWindow &window) {
 
         switch (currentGameState) {
             case GameState::PAUSED:
+            case GameState::GAMEOVER:
                 draw(window);
                 sleep; // sleep so we don't peg the CPU
                 // otherwise the loop will be iterating as fast as it possibly can
-                break;
-            case GameState::GAMEOVER:
-                draw(window);
-                sleep;
                 break;
             case GameState::EXIT:
                 return;
@@ -197,12 +194,12 @@ void Game::draw(RenderWindow &window) {
 
     switch (currentGameState) {
         case GameState::PAUSED:
-            window.draw(pauseText[0]);
-            window.draw(pauseText[1]);
+            window.draw(_Paused);
+            window.draw(_PressSpace);
             break;
         case GameState::GAMEOVER:
-            window.draw(gameOverText[0]);
-            window.draw(gameOverText[1]);
+            window.draw(_GameOver);
+            window.draw(_PressAny);
             break;
         default:
             break;

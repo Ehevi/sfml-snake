@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#define APPLE_RADIUS 10;
+#define APPLE_RADIUS BLOCK / 2
 
 using namespace sf;
 

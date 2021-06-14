@@ -46,4 +46,4 @@ rm -Rf sfml-snake
 
 ## Files I am not the author of:
 - [snake/cmake/FindSFML.cmake](https://github.com/Ehevi/sfml-snake/blob/main/snake/cmake/FindSFML.cmake) file comes from [SFML Game Development Book](https://github.com/SFML/SFML-Game-Development-Book/blob/master/CMake/FindSFML.cmake) ([see the license file](https://github.com/SFML/SFML-Game-Development-Book/blob/master/License.txt))
-- [snake/font/Poppins-Regular.otf](https://github.com/Ehevi/sfml-snake/blob/main/snake/font/Poppins-Regular.otf) ([see the license file](https://github.com/Ehevi/sfml-snake/blob/main/snake/font/SIL-Open-Font-License.txt))
+- [snake/font/Poppins-Regular.otf](https://github.com/Ehevi/sfml-snake/blob/main/snake/font/Poppins-Regular.otf) ([see the license file](https://github.com/Ehevi/sfml-snake/blob/main/snake/font/SIL%20Open%20Font%20License.txt))

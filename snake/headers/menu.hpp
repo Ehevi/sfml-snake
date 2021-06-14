@@ -14,8 +14,7 @@ private:
 
     Vector2f resolution;
     RenderWindow window;
-    const unsigned int FPS = 60;
-    static const Time TimePerFrame;
+    const unsigned int FPS = FramesPerSecond;
 
     Font font;
 
