@@ -64,10 +64,8 @@ void Game::moveFood() {
                 break;
             }
 
-        if (snake.intersects(Rect<float>(newFoodPosition.x, newFoodPosition.y, BLOCK, BLOCK))) {
+        if (snake.intersects(Rect<float>(newFoodPosition.x, newFoodPosition.y, newFoodPosition.x + BLOCK, newFoodPosition.y + BLOCK)))
             badPosition = true; // food was generated inside the snake
-            break;
-        }
     }
     
     food.setPosition(newFoodPosition);
