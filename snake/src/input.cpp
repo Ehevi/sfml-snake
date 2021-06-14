@@ -1,7 +1,7 @@
 #include "../headers/game.hpp"
 
 void Game::handleInput(RenderWindow &window) {
-    Event event{};
+    Event event;
     while(window.pollEvent(event)) {
         switch(event.type) {
             case Event::Closed:

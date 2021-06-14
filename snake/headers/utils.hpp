@@ -37,6 +37,8 @@ const int mediumIndexes[] = {5, 6, 7, 8};
 
 void loadFont(Font &font);
 
+void center(Text &text);
+
 void centerHorizontally(Text &text, int y);
 void centerHorizontally(RectangleShape &shape, int y);
 void centerHorizontally(Text &text1, Text &text2, Text &text3, int y);

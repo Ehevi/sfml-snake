@@ -8,6 +8,10 @@ void loadFont(Font &font) {
   }
 }
 
+void center(Text &text) {
+    text.setPosition(SCREEN_WIDTH / 2 - text.getGlobalBounds().width / 2, SCREEN_HEIGHT / 2 - text.getGlobalBounds().height / 2);
+}
+
 void centerHorizontally(Text &text, int y) {
     text.setPosition(SCREEN_WIDTH / 2 - text.getGlobalBounds().width / 2, y);
 }

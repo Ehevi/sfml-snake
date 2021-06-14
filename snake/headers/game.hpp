@@ -41,15 +41,15 @@ private:
     
     Text scoreText;
     Text gameTimeText;
-    Text pauseText;
-    Text gameOverText;
+    Text pauseText[2];
+    Text gameOverText[2];
 
     bool acceleration;
     bool wallsAround;
     bool wallGeneration;
 
 public:
-    Game() {};
+    Game();
 
     enum Direction {UP, DOWN, RIGHT, LEFT};
     enum GameState {RUNNING, PAUSED, GAMEOVER, EXIT};

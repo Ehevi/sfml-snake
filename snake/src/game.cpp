@@ -2,6 +2,40 @@
 #include "../headers/wall.hpp"
 #include "../headers/utils.hpp"
 
+Game::Game() {
+    loadFont(font);
+
+    scoreText.setCharacterSize(SMALL_FONT_SIZE);
+    scoreText.setString("Score: ");
+    scoreText.setFont(font);
+    scoreText.setPosition(30, 30);
+    
+    gameTimeText.setCharacterSize(SMALL_FONT_SIZE);
+    gameTimeText.setString("Time: ");
+    gameTimeText.setFont(font);
+    gameTimeText.setPosition(30, SCREEN_HEIGHT - 60);
+    
+    pauseText[0].setCharacterSize(LARGE_FONT_SIZE);
+    pauseText[0].setString("Paused\n");
+    pauseText[0].setFont(font);
+    center(pauseText[0]);
+
+    pauseText[1].setCharacterSize(SMALL_FONT_SIZE);
+    pauseText[1].setString("\nPress space to continue");
+    pauseText[1].setFont(font);
+    center(pauseText[1]);
+
+    gameOverText[0].setCharacterSize(LARGE_FONT_SIZE);
+    gameOverText[0].setString("Game Over!\n");
+    gameOverText[0].setFont(font);
+    center(gameOverText[0]);
+
+    gameOverText[1].setCharacterSize(SMALL_FONT_SIZE);
+    gameOverText[1].setString("\nPress any key to continue");
+    gameOverText[1].setFont(font);
+    center(gameOverText[1]);
+}
+
 void Game::newGame(RenderWindow &window, Vector2f gameResolution, int newInitialSpeed, bool newAcceleration, bool newWallsAround, bool newWallGeneration) {
     srand(time(nullptr)); // for food and walls generation
 
@@ -13,16 +47,6 @@ void Game::newGame(RenderWindow &window, Vector2f gameResolution, int newInitial
     wallGeneration = newWallGeneration;
 
     score = 0;
-
-    loadFont(font);
-    scoreText.setCharacterSize(SMALL_FONT_SIZE);
-    scoreText.setString("Score: ");
-    scoreText.setFont(font);
-    scoreText.setPosition(30, 30);
-    gameTimeText.setCharacterSize(SMALL_FONT_SIZE);
-    gameTimeText.setString("Time: ");
-    gameTimeText.setFont(font);
-    gameTimeText.setPosition(30, SCREEN_HEIGHT - 60);
     
     gameClock.restart();
     timeSinceLastMove = Time::Zero;
@@ -137,6 +161,7 @@ void Game::run(RenderWindow &window) {
 
         switch (currentGameState) {
             case GameState::PAUSED:
+                draw(window);
                 sleep; // sleep so we don't peg the CPU
                 // otherwise the loop will be iterating as fast as it possibly can
                 break;
@@ -169,5 +194,18 @@ void Game::draw(RenderWindow &window) {
 
     window.draw(scoreText);
     window.draw(gameTimeText);
+
+    switch (currentGameState) {
+        case GameState::PAUSED:
+            window.draw(pauseText[0]);
+            window.draw(pauseText[1]);
+            break;
+        case GameState::GAMEOVER:
+            window.draw(gameOverText[0]);
+            window.draw(gameOverText[1]);
+            break;
+        default:
+            break;
+    }
     window.display();
 }
